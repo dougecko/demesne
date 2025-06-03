@@ -39,8 +39,7 @@ function CreatureComponent() {
                 <button
                     onClick={handleReload}
                     disabled={loading}
-                    className="reload-button"
-                >
+                    className="reload-button">
                     {loading ? 'Loading...' : 'Reload'}
                 </button>
             </div>

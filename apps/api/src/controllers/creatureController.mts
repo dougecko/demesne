@@ -4,6 +4,10 @@ import logger from '../config/logger.mts';
 
 export const getCreatureData = async (req: Request, res: Response, next: NextFunction) => {
     logger.debug("creature request: " + req.baseUrl)
+
+    // 1s delay to simulate logic
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     try {
         const creatures = await getCreatures();
         res.json(creatures);
