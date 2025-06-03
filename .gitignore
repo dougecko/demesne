@@ -28,6 +28,7 @@ pnpm-debug.log*
 # Cache
 .cache/
 .eslintcache
+.tsconfig.tsbuildinfo
 
 # Testing
 coverage/
