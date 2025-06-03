@@ -1,16 +1,23 @@
-import type { Creature } from '../models/types.mts';
+import type {Creature} from '../models/types.mts';
 
 // Mock data - replace with actual data fetching logic
+const createValue = (value: number) => {
+    return {
+        value: value,
+        modifier: Math.floor((value - 10) / 2)
+    }
+}
+
 const creatures: Creature[] = [
     {
         id: '1', name: 'Thing 1', description: 'First creature',
         stats: {
-            strength: 0,
-            dexterity: 0,
-            constitution: 0,
-            intelligence: 0,
-            wisdom: 0,
-            charisma: 0
+            strength: createValue(10),
+            dexterity: createValue(12),
+            constitution: createValue(13),
+            intelligence: createValue(6),
+            wisdom: createValue(7),
+            charisma: createValue(16)
         },
         speed: 0,
         skills: [],
@@ -28,12 +35,12 @@ const creatures: Creature[] = [
     {
         id: '2', name: 'Thing 2', description: 'Second creature',
         stats: {
-            strength: 0,
-            dexterity: 0,
-            constitution: 0,
-            intelligence: 0,
-            wisdom: 0,
-            charisma: 0
+            strength: createValue(15),
+            dexterity: createValue(13),
+            constitution: createValue(10),
+            intelligence: createValue(6),
+            wisdom: createValue(7),
+            charisma: createValue(4)
         },
         speed: 0,
         skills: [],

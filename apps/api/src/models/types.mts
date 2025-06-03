@@ -22,13 +22,18 @@ export interface SavingThrows {
     charisma: number;
 }
 
+interface Attribute {
+    value: number;
+    modifier: number;
+}
+
 export interface Attributes {
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    intelligence: number;
-    wisdom: number;
-    charisma: number;
+    strength: Attribute;
+    dexterity: Attribute;
+    constitution: Attribute;
+    intelligence: Attribute;
+    wisdom: Attribute;
+    charisma: Attribute;
 }
 
 export interface Example {

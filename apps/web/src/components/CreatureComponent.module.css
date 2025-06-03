@@ -1,0 +1,77 @@
+.creature-component {
+    margin: 2rem 0;
+}
+
+.creatures-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.reload-button {
+    padding: 0.5rem 1rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reload-button:disabled {
+    background-color: #cccccc;
+}
+
+.creatures-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.creature-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats-table, .saves-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.stats-table th, .saves-table th,
+.stats-table td, .saves-table td {
+    padding: 0.5rem;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.stats-table th, .saves-table th {
+    background-color: #f5f5f5;
+}
+
+.skills-list {
+    padding-left: 1.5rem;
+}
+
+.reload-button {
+    padding: 0.5rem 1rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.reload-button:hover {
+    background-color: #357abD;
+}
+
+.reload-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
