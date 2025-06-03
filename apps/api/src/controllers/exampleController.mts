@@ -3,7 +3,7 @@ import {getExamples, createExample} from '../services/exampleService.mts';
 import logger from '../config/logger.mts';
 
 export const getExampleData = async (req: Request, res: Response, next: NextFunction) => {
-    logger.debug("request: " + req.baseUrl)
+    logger.debug("example request: " + req.baseUrl)
     try {
         const examples = await getExamples();
         res.json(examples);

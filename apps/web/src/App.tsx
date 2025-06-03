@@ -4,6 +4,7 @@ import reactLogo from './assets/react.svg'
 import demesneLogo from './assets/demesne-logo.png'
 import ExampleComponent from './components/ExampleComponent'
 import './App.css'
+import CreatureComponent from "./components/CreatureComponent.tsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -31,6 +32,7 @@ function App() {
                 </p>
             </div>
 
+            <CreatureComponent />
             <ExampleComponent />
 
             <p className="read-the-docs">

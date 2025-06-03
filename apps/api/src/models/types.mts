@@ -1,3 +1,9 @@
+export interface Creature {
+    id: string;
+    name: string;
+    description: string;
+}
+
 export interface Example {
     id: string;
     name: string;
