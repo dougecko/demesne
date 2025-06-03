@@ -24,10 +24,10 @@ const creatures: Creature[] = [
         armorClass: 0,
         hitPoints: 0,
         savingThrows: {
-            strength: 0,
+            strength: 3,
             dexterity: 0,
             constitution: 0,
-            intelligence: 0,
+            intelligence: 4,
             wisdom: 0,
             charisma: 0
         }

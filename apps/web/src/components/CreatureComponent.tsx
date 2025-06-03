@@ -33,6 +33,13 @@ function CreatureComponent() {
         fetchCreatures();
     };
 
+    // @ts-ignore
+    const allFieldsEmpty = (obj) => {
+        return Object.values(obj).every(
+            val => val === "" || val === 0 || val === null || val === undefined
+        );
+    }
+
     // Function to render stat block
     const renderStatBlock = (creature: Creature) => {
         // Get all stat keys for mapping
@@ -45,7 +52,7 @@ function CreatureComponent() {
                     <thead>
                     <tr>
                         {statKeys.map(key => (
-                            <th key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</th>
+                            <th key={key}>{key.charAt(0).toUpperCase() + key.slice(1, 3)}</th>
                         ))}
                     </tr>
                     </thead>
@@ -63,15 +70,15 @@ function CreatureComponent() {
                     <thead>
                     <tr>
                         {statKeys.map(key => (
-                            <th key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</th>
+                            <th key={key}>{key.charAt(0).toUpperCase() + key.slice(1, 3)}</th>
                         ))}
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        {statKeys.map(key => (
+                        {!allFieldsEmpty(creature.savingThrows) ? statKeys.map(key => (
                             <td key={key}>{creature.savingThrows[key]}</td>
-                        ))}
+                        )) : "none"}
                     </tr>
                     </tbody>
                 </table>
