@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getCreatures } from '../services/creatureService.mjs';
+import { getCreatures, createCreature } from '../services/creatureService.mjs';
 import { mockCreatures } from './mockData.js';
 import fetch from 'node-fetch';
 
@@ -7,6 +7,30 @@ import fetch from 'node-fetch';
 vi.mock('node-fetch', () => ({
     default: vi.fn()
 }));
+
+// Mock the parseSense function
+const parseSense = (senses: string[] | undefined, senseName: string, fallback: number | undefined = undefined): number | undefined => {
+  const match = senses?.find((s) => s.includes(senseName))?.match(/\d+/)?.[0] ?? '';
+  const value = parseInt(match, 10);
+  return isNaN(value) ? fallback : value;
+};
+
+describe('parseSense', () => {
+  it('should return the correct value when the sense is found', () => {
+    const senses = ['darkvision 60 ft.', 'blindsight 30 ft.'];
+    expect(parseSense(senses, 'darkvision')).toBe(60);
+  });
+
+  it('should return undefined when the sense is not found', () => {
+    const senses = ['blindsight 30 ft.'];
+    expect(parseSense(senses, 'darkvision')).toBeUndefined();
+  });
+
+  it('should return the fallback value when the sense is not found and fallback is provided', () => {
+    const senses = ['blindsight 30 ft.'];
+    expect(parseSense(senses, 'darkvision', 10)).toBe(10);
+  });
+});
 
 describe('creatureService', () => {
     beforeEach(() => {

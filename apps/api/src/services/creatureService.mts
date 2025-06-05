@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import logger from '../utils/logger.mts';
 
 const DND_API_BASE = 'https://dnd5eapi.co/api';
+const FETCH_SIZE = 3;
 
 // Helper function to create attribute value and modifier
 const createValue = (value: number) => ({
@@ -74,13 +75,13 @@ const transformMonster = (monster: {
             charisma: monster.charisma_save || 0
         },
         senses: {
-            darkvision: parseSense(monster.senses, 'darkvision'),
-            blindsight: parseSense(monster.senses, 'blindsight'),
-            tremorsense: parseSense(monster.senses, 'tremorsense'),
-            truesight: parseSense(monster.senses, 'truesight'),
-            passivePerception: parseSense(monster.senses, 'passive Perception', 10) ?? 10
+            darkvision: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'darkvision'),
+            blindsight: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'blindsight'),
+            tremorsense: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'tremorsense'),
+            truesight: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'truesight'),
+            passivePerception: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'passive Perception', 10) ?? 10
         },
-        languages: (monster.languages?.map((l) => l.name).filter((name): name is string => typeof name === 'string')) || [],
+        languages: (Array.isArray(monster.languages) ? monster.languages.map((l) => l.name).filter((name): name is string => typeof name === 'string') : []) || [],
         challengeRating: {
             rating: parseFloat(monster.challenge_rating ?? '0') || 0,
             xp: monster.xp || 0
@@ -112,9 +113,9 @@ export const getCreatures = async (): Promise<Creature[]> => {
             throw new Error(errorMessage);
         }
         
-        logger.info(`Found ${data.results.length} monsters, fetching details for first 20...`);
-        // Then fetch details for each monster (limit to first 20 for performance)
-        const monsterPromises = data.results.slice(0, 20).map(async (monster: { index: string }) => {
+        logger.info(`Found ${data.results.length} monsters, fetching details for first ${FETCH_SIZE}...`);
+        // Then fetch details for each monster (limit to first FETCH_SIZE for performance)
+        const monsterPromises = data.results.slice(0, FETCH_SIZE).map(async (monster: { index: string }) => {
             try {
                 const monsterResponse = await fetch(`${DND_API_BASE}/monsters/${monster.index}`);
                 if (!monsterResponse.ok) {
