@@ -47,10 +47,9 @@ function CreatureComponent() {
         });
     };
 
-    // @ts-ignore
-    const allFieldsEmpty = (obj) => {
+    const allFieldsEmpty = (obj: Object): boolean => {
         return Object.values(obj).every(
-            val => val === "" || val === 0 || val === null || val === undefined
+            val => val === 0 || val === null || val === undefined
         );
     }
 
