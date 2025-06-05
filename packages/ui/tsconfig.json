@@ -6,8 +6,8 @@
       "node"
     ],
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "jsx": "react-jsx",
     "declaration": true,
     "esModuleInterop": true,

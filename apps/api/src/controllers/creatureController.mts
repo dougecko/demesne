@@ -1,5 +1,5 @@
 import type {Request, Response, NextFunction} from 'express';
-import {getCreatures, createCreature} from '../services/creatureService.mts';
+import { getCreatures, createCreature } from '../services/creatureService.mts';
 import logger from '../config/logger.mts';
 
 export const getCreatureData = async (req: Request, res: Response, next: NextFunction) => {

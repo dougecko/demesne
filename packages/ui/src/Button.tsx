@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const Button = () => {
-    return <button>Shared Button</button>
+export const Button = ({ children }: { children: React.ReactNode }) => {
+    return <button>{children}</button>
 }

@@ -1,12 +1,13 @@
+import React from 'react';
 import logger from '../utils/logger';
 
-const Widget = () => {
+const Widget = ({ children }: { children: React.ReactNode }) => {
     const handleClick = () => {
         logger.info('Widget clicked');
         // Do something
     };
 
-    return <button onClick={handleClick}>Click me</button>;
+    return <button onClick={handleClick}>{children}</button>;
 };
 
-export default Widget
+export default Widget;

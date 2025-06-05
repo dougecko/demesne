@@ -1,12 +1,11 @@
-import type {Request, Response, NextFunction} from 'express';
+import type { Request, Response } from 'express';
 import type {ApiError} from '@demesne/types';
 import logger from '../config/logger.mts';
 
 export const errorHandler = (
     err: ApiError,
     _req: Request,
-    res: Response,
-    _next: NextFunction
+    res: Response
 ) => {
     const statusCode = err.statusCode || 500;
     logger.error(`[Error] ${err.message}`)
