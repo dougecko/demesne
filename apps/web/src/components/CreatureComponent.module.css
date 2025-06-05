@@ -245,8 +245,53 @@
 }
 
 .statBlockDescription {
-    margin-top: 0.8rem;
-    font-size: 0.95rem;
+    padding: 1rem;
+    white-space: pre-line;
+}
+
+.statBlockDescription .property {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.statBlockDescription .property:first-child {
+    margin-top: 0;
+}
+
+.statBlockDescription .property:last-child {
+    margin-bottom: 0;
+}
+
+.statBlockDescription .property .propertyName {
+    font-weight: bold;
+    font-style: italic;
+    color: #581C00;
+    margin-right: 0.5rem;
+}
+
+.statBlockDescription h3 {
+    color: var(--card-text);
+    margin: 1rem 0 0.5rem;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.statBlockDescription h3:first-child {
+    margin-top: 0;
+}
+
+.statBlockDescription p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.statBlockDescription ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.statBlockDescription li {
+    margin: 0.5rem 0;
     line-height: 1.5;
 }
 

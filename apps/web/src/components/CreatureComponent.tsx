@@ -117,7 +117,7 @@ function CreatureComponent() {
                         <span className={styles.statLabel}>Hit Points</span> {creature.hitPoints}
                     </div>
                     <div className={styles.basicStat}>
-                        <span className={styles.statLabel}>Speed</span> {creature.speed} ft.
+                        <span className={styles.statLabel}>Speed</span> {creature.speed}
                     </div>
                 </div>
 
@@ -167,7 +167,38 @@ function CreatureComponent() {
                 <div className={styles.statBlockDivider}></div>
 
                 <div className={styles.statBlockDescription}>
-                    <p>{creature.description}</p>
+                    {creature.description.specialAbilities.length > 0 && (
+                        <>
+                            <div className={styles.property}>
+                                <span className={styles.propertyName}>Special Abilities</span>
+                            </div>
+                            {creature.description.specialAbilities.map((ability, index) => (
+                                <p key={index}>• {ability.name}. {ability.desc}</p>
+                            ))}
+                        </>
+                    )}
+
+                    {creature.description.actions.length > 0 && (
+                        <>
+                            <div className={styles.property}>
+                                <span className={styles.propertyName}>Actions</span>
+                            </div>
+                            {creature.description.actions.map((action, index) => (
+                                <p key={index}>• {action.name}. {action.desc}</p>
+                            ))}
+                        </>
+                    )}
+
+                    {creature.description.legendaryActions.length > 0 && (
+                        <>
+                            <div className={styles.property}>
+                                <span className={styles.propertyName}>Legendary Actions</span>
+                            </div>
+                            {creature.description.legendaryActions.map((action, index) => (
+                                <p key={index}>• {action.name}. {action.desc}</p>
+                            ))}
+                        </>
+                    )}
                 </div>
             </div>
         );

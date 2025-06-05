@@ -44,10 +44,16 @@ export interface CreatureType {
   alignment: Alignment;
 }
 
+export interface CreatureDescription {
+  specialAbilities: Array<{ name: string; desc: string }>;
+  actions: Array<{ name: string; desc: string }>;
+  legendaryActions: Array<{ name: string; desc: string }>;
+}
+
 export interface Creature {
   id: string;
   name: string;
-  description: string;
+  description: CreatureDescription;
   stats: Stats;
   armorClass: number;
   hitPoints: number;

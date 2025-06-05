@@ -58,21 +58,14 @@ const transformMonster = (monster: {
   actions?: Array<{ name: string; desc: string }>;
   legendary_actions?: Array<{ name: string; desc: string }>;
 }): Creature => {
-    // Combine special abilities, actions, and legendary actions into a single description
-    const specialAbilities = monster.special_abilities?.map(ability => `${ability.name}. ${ability.desc}`).join('\n\n') || '';
-    const actions = monster.actions?.map(action => `${action.name}. ${action.desc}`).join('\n\n') || '';
-    const legendaryActions = monster.legendary_actions?.map(action => `${action.name}. ${action.desc}`).join('\n\n') || '';
-    
-    const fullDescription = [
-        specialAbilities,
-        actions,
-        legendaryActions
-    ].filter(Boolean).join('\n\n');
-
     return {
         id: monster.index,
         name: monster.name,
-        description: fullDescription || 'No description available.',
+        description: {
+            specialAbilities: monster.special_abilities || [],
+            actions: monster.actions || [],
+            legendaryActions: monster.legendary_actions || []
+        },
         stats: {
             strength: createValue(monster.strength || 10),
             dexterity: createValue(monster.dexterity || 10),
