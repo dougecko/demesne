@@ -113,9 +113,13 @@ export const getCreatures = async (): Promise<Creature[]> => {
             throw new Error(errorMessage);
         }
         
-        logger.info(`Found ${data.results.length} monsters, fetching details for first ${FETCH_SIZE}...`);
-        // Then fetch details for each monster (limit to first FETCH_SIZE for performance)
-        const monsterPromises = data.results.slice(0, FETCH_SIZE).map(async (monster: { index: string }) => {
+        // Randomly select FETCH_SIZE monsters
+        const shuffledResults = data.results.sort(() => 0.5 - Math.random());
+        const selectedMonsters = shuffledResults.slice(0, FETCH_SIZE);
+        
+        logger.info(`Found ${data.results.length} monsters, fetching details for ${FETCH_SIZE} random ones...`);
+        // Then fetch details for each selected monster
+        const monsterPromises = selectedMonsters.map(async (monster: { index: string }) => {
             try {
                 const monsterResponse = await fetch(`${DND_API_BASE}/monsters/${monster.index}`);
                 if (!monsterResponse.ok) {

@@ -72,7 +72,9 @@ export const getSpells = async (): Promise<Spell[]> => {
     
     logger.info(`Found ${data.results.length} spells, fetching details for first ${FETCH_SIZE}...`);
     // Then fetch details for each spell (limit to first FETCH_SIZE for performance)
-    const spellPromises = data.results.slice(0, FETCH_SIZE).map(async (spell: { index: string }) => {
+    const shuffledResults = data.results.sort(() => 0.5 - Math.random());
+    const selectedSpells = shuffledResults.slice(0, FETCH_SIZE);
+    const spellPromises = selectedSpells.map(async (spell: { index: string }) => {
       try {
         const spellResponse = await fetch(`${DND_API_BASE}/spells/${spell.index}`);
         if (!spellResponse.ok) {
