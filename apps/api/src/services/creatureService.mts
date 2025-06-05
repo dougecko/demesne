@@ -1,4 +1,4 @@
-import type {Creature} from '../models/types.mts';
+import type {Creature} from '@demesne/types';
 
 // Mock data - replace with actual data fetching logic
 const createValue = (value: number) => {

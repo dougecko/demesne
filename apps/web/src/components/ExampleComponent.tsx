@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {api} from '../utils/api';
 import logger from '../utils/logger';
-import type {Example} from '../../../api/src/models/types.mts'; // You could create a shared types package
+import type {Example} from '@demesne/types';
 
 function ExampleComponent() {
 

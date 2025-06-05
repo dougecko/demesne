@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {api} from '../utils/api';
 import logger from '../utils/logger';
-import type {Creature} from '../../../api/src/models/types.mts'; // You could create a shared types package
+import type {Creature} from '@demesne/types'; // You could create a shared types package
 import styles from './CreatureComponent.module.css';
 import brassReload from '../assets/brass-reload.svg';
 

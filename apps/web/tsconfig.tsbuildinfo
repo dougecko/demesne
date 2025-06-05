@@ -1,0 +1,1 @@
+{"root":["../../vite.config.mts","./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/examplecomponent.tsx","./src/components/widget.tsx","./src/utils/api.mts"],"errors":true,"version":"5.8.3"}

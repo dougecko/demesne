@@ -5,6 +5,8 @@ node_modules/
 # Build outputs
 dist/
 .turbo/
+*.d.ts
+*.js
 
 # IDE files
 .idea/

@@ -32,7 +32,42 @@
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  height: auto;
+  max-width: 100%;
+  padding: 1rem;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    max-width: 80%;
+    padding: 0.75rem;
+  }
+}
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }

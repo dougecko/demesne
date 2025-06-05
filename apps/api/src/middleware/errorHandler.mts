@@ -1,5 +1,5 @@
 import type {Request, Response, NextFunction} from 'express';
-import type {ApiError} from '../models/types.mts';
+import type {ApiError} from '@demesne/types';
 import logger from '../config/logger.mts';
 
 export const errorHandler = (

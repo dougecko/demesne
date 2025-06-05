@@ -74,4 +74,4 @@ export interface Example {
 
 export interface ApiError extends Error {
     statusCode?: number;
-}
+} 

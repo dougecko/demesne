@@ -1,4 +1,4 @@
-import type { Example } from '../models/types.mts';
+import type { Example } from '@demesne/types';
 
 // Mock data - replace with actual data fetching logic
 const examples: Example[] = [
