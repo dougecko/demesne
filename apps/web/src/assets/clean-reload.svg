@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+    <linearGradient id="parchmentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7EDD7" />
+      <stop offset="100%" stop-color="#E4D0A9" />
+    </linearGradient>
+    <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6A0D00" />
+      <stop offset="100%" stop-color="#580C00" />
+    </linearGradient>
+  </defs>
+
+  <!-- Simple parchment background -->
+  <circle cx="12" cy="12" r="10" fill="url(#parchmentGradient)" stroke="#C9B07C" stroke-width="0.75" />
+
+  <!-- Clean circular arrow -->
+  <path d="M12 5c3.9 0 7 3.1 7 7s-3.1 7-7 7-7-3.1-7-7" 
+        stroke="url(#circleGradient)" stroke-width="1.8" fill="none" stroke-linecap="round" />
+
+  <!-- Simple arrowhead -->
+  <path d="M7 12l-2-2-2 2" stroke="url(#circleGradient)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

@@ -3,6 +3,7 @@ import {api} from '../utils/api';
 import logger from '../utils/logger';
 import type {Creature} from '../../../api/src/models/types.mts'; // You could create a shared types package
 import styles from './CreatureComponent.module.css';
+import cleanReload from '../assets/clean-reload.svg';
 
 function CreatureComponent() {
     const [creatures, setCreatures] = useState<Creature[]>([]);
@@ -173,12 +174,15 @@ function CreatureComponent() {
     return (
         <div>
             <div className={styles.creatureHeader}>
-                <h1>Creatures
+                <h1>
+                    Creatures
                     <button
                         onClick={handleReload}
                         disabled={loading}
-                        className={styles.reloadButton}>
-                        {loading ? 'Loading...' : 'Reload'}
+                        className={`${styles.reloadButton} ${loading ? styles.reloadButtonSpin : ''}`}
+                        title="Reload creatures"
+                        aria-label="Reload creatures">
+                        <img src={cleanReload} alt="Reload" />
                     </button>
                 </h1>
             </div>

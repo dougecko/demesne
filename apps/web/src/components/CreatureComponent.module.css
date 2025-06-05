@@ -18,6 +18,22 @@
     font-weight: 500;
 }
 
+.creatureHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.creatureHeader h1 {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4b2404;
+}
+
 @media (max-width: 480px) {
     .creatureHeader {
         flex-direction: column;
@@ -213,22 +229,43 @@
     padding-left: 1.5rem;
 }
 
-.reload-button {
-    padding: 0.5rem 1rem;
-    background-color: #4a90e2;
-    color: white;
+.reloadButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    font-weight: 500;
+    padding: 0;
+    margin-left: 12px;
+    transition: transform 0.8s ease;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
 }
 
-.reload-button:hover {
-    background-color: #357abD;
+.reloadButton img {
+    width: 100%;
+    height: 100%;
 }
 
-.reload-button:disabled {
-    background-color: #cccccc;
+.reloadButton:hover {
+    transform: rotate(180deg);
+}
+
+.reloadButton:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
+}
+
+.reloadButtonSpin {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
