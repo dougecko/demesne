@@ -4,6 +4,20 @@
     gap: 0.5rem;
 }
 
+.loadingContainer, .errorContainer {
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.errorContainer {
+    color: #d32f2f;
+    font-weight: 500;
+}
+
 @media (max-width: 480px) {
     .creatureHeader {
         flex-direction: column;
@@ -37,43 +51,157 @@
     background-color: #cccccc;
 }
 
-.creatures-list {
+.creaturesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-}
-
-.creature-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.stats-table, .saves-table {
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-    table-layout: fixed;
 }
 
-.stats-table th, .saves-table th,
-.stats-table td, .saves-table td {
-    padding: 0.5rem;
+.creatureCard {
+    width: 100%;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+}
+
+/* D&D 5e Style Stat Block */
+.statBlock {
+    font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
+    background-color: #F0E4C9; /* Darker parchment color */
+    color: #2B2117; /* Dark brown text */
+    padding: 0.6rem;
+    border: 1px solid #C9B07C;
+    box-shadow: 0 0 3px #867453;
+    border-radius: 5px;
+    position: relative;
+}
+
+.statBlockHeader {
     text-align: center;
-    border: 1px solid #e0e0e0;
-    word-break: break-word;
+    margin-bottom: 0.3rem;
+}
+
+.creatureName {
+    color: #580C00; /* Darker red for better contrast */
+    font-size: 1.6rem;
+    font-variant: small-caps;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+}
+
+.creatureType {
+    font-style: italic;
+    font-size: 0.9rem;
+    margin: 0.2rem 0 0;
+    color: #3A3226; /* Dark brown */
+}
+
+.statBlockDivider {
+    height: 5px;
+    background: linear-gradient(to right, transparent, #6A0D00, #6A0D00, #6A0D00, transparent);
+    margin: 0.5rem 0;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.statBlockBasics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Stat block ability scores */
+.abilityScores {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.7rem 0;
+    text-align: center;
+}
+
+.abilityScore {
+    display: flex;
+    flex-direction: column;
+    width: 16%;
+}
+
+.abilityName {
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+    color: #581C00; /* Darker red */
+}
+
+.abilityValue {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2B2117; /* Dark brown */
+}
+
+.abilityMod {
+    font-size: 0.9rem;
+    color: #3A3226; /* Medium brown */
+}
+
+/* Stat block properties */
+.statBlockProperties {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0.5rem 0;
+}
+
+.property {
+    line-height: 1.4;
+}
+
+.propertyName, .statLabel {
+    font-weight: bold;
+    font-style: italic;
+    color: #581C00; /* Darker red for labels */
+}
+
+.basicStat {
+    line-height: 1.4;
+}
+
+.statBlockDescription {
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 @media (max-width: 480px) {
-    .stats-table th, .saves-table th,
-    .stats-table td, .saves-table td {
-        padding: 0.3rem 0.2rem;
+    .creaturesGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .creatureName {
+        font-size: 1.4rem;
+    }
+
+    .abilityScores {
+        flex-wrap: wrap;
+    }
+
+    .abilityScore {
+        width: 30%;
+        margin-bottom: 0.5rem;
+    }
+
+    .statBlockBasics, .statBlockProperties {
         font-size: 0.9rem;
     }
 
-    .statsBlock h4 {
-        font-size: 1.1rem;
+    .statBlockDescription {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+    .creaturesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 }
 

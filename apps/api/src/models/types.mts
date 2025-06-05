@@ -5,6 +5,20 @@ export interface Creature extends Target {
     stats: Attributes;
     speed: number;
     skills: string[];
+    senses: Senses;
+    languages: string[];
+    challengeRating: {
+        rating: number;
+        xp: number;
+    };
+}
+
+export interface Senses {
+    darkvision?: number;
+    blindsight?: number;
+    tremorsense?: number;
+    truesight?: number;
+    passivePerception: number;
 }
 
 interface Target {
