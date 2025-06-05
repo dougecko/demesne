@@ -114,7 +114,8 @@ function CreatureComponent() {
                         <div key={key} className={styles.abilityScore}>
                             <div className={styles.abilityName}>{key.charAt(0).toUpperCase() + key.slice(1, 3)}</div>
                             <div className={styles.abilityValue}>{creature.stats[key].value}</div>
-                            <div className={styles.abilityMod}>{creature.stats[key].modifier >= 0 ? `+${creature.stats[key].modifier}` : creature.stats[key].modifier}</div>
+                            <div
+                                className={styles.abilityMod}>{creature.stats[key].modifier >= 0 ? `+${creature.stats[key].modifier}` : creature.stats[key].modifier}</div>
                         </div>
                     ))}
                 </div>
@@ -145,7 +146,8 @@ function CreatureComponent() {
                     )}
 
                     <div className={styles.property}>
-                        <span className={styles.propertyName}>Challenge</span> {creature.challengeRating?.rating || 1} ({creature.challengeRating?.xp || 200} XP)
+                        <span
+                            className={styles.propertyName}>Challenge</span> {creature.challengeRating?.rating || 1} ({creature.challengeRating?.xp || 200} XP)
                     </div>
                 </div>
 
@@ -158,24 +160,17 @@ function CreatureComponent() {
         );
     };
 
-            // Ensure creatures have default values for new properties
-            const processedCreatures = creatures.map(creature => ({
-        ...creature,
-        senses: creature.senses || { passivePerception: 10 },
-        languages: creature.languages || [],
-        challengeRating: creature.challengeRating || { rating: 1, xp: 200 }
-            }));
-
     return (
         <div>
             <div className={styles.creatureHeader}>
-                <h1>Creatures</h1>
-                <button
-                    onClick={handleReload}
-                    disabled={loading}
-                    className={styles.reloadButton}>
-                    {loading ? 'Loading...' : 'Reload'}
-                </button>
+                <h1>Creatures
+                    <button
+                        onClick={handleReload}
+                        disabled={loading}
+                        className={styles.reloadButton}>
+                        {loading ? 'Loading...' : 'Reload'}
+                    </button>
+                </h1>
             </div>
 
             {loading ? (
@@ -184,7 +179,7 @@ function CreatureComponent() {
                 <div className={styles.errorContainer}>Error: {error}</div>
             ) : (
                 <div className={styles.creaturesGrid}>
-                    {processedCreatures.map(creature => (
+                    {creatures.map(creature => (
                         <div key={creature.id} className={styles.creatureCard}>
                             {renderStatBlock(creature)}
                         </div>
