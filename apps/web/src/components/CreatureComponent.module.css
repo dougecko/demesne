@@ -104,6 +104,8 @@
     position: relative;
     cursor: pointer;
     transition: var(--card-transition);
+    max-width: 380px;
+    margin: 0 auto;
 }
 
 .creatureCard:hover {
@@ -150,6 +152,9 @@
     text-align: center;
     margin-bottom: 0.3rem;
     padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
 .creatureName {
@@ -160,13 +165,16 @@
     letter-spacing: 1px;
     margin: 0;
     text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+    display: block;
+    width: 100%;
 }
 
 .creatureType {
     font-style: italic;
     font-size: var(--card-type-size);
-    margin: 0.2rem 0 0;
+    margin: 0;
     color: var(--card-type-color);
+    white-space: pre-line;
 }
 
 .statBlockDivider {
@@ -310,9 +318,9 @@
 
 .creatureList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    width: 100%;
 }
 
 .creatureContent {
@@ -326,10 +334,14 @@
 }
 
 .creatureExpandIndicator {
+    position: absolute;
+    top: 8px;
+    right: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 8px;
+    width: 24px;
+    height: 24px;
 }
 
 .creatureExpandTriangleCollapsed,
@@ -342,12 +354,35 @@
 }
 
 .creatureExpandTriangleCollapsed {
-    border-top: 6px solid var(--card-text);
+    border-top: 6px solid #580C00;
     transform: rotate(0deg);
 }
 
 .creatureExpandTriangleExpanded {
-    border-bottom: 6px solid var(--card-text);
+    border-top: 6px solid #580C00;
     transform: rotate(180deg);
+}
+
+@media (max-width: 480px) {
+    .creatureHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .creatureHeader h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
+    }
+
+    .creatureList {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+    .creatureList {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
 }
 

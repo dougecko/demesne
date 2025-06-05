@@ -5,6 +5,9 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .spellCard {
@@ -141,10 +144,14 @@
 }
 
 .spellExpandIndicator {
+    position: absolute;
+    top: 8px;
+    right: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 8px;
+    width: 24px;
+    height: 24px;
 }
 
 .spellExpandTriangleCollapsed,
@@ -157,12 +164,12 @@
 }
 
 .spellExpandTriangleCollapsed {
-    border-top: 6px solid var(--card-text);
+    border-top: 6px solid #580C00;
     transform: rotate(0deg);
 }
 
 .spellExpandTriangleExpanded {
-    border-bottom: 6px solid var(--card-text);
+    border-top: 6px solid #580C00;
     transform: rotate(180deg);
 }
 

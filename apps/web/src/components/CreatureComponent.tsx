@@ -160,8 +160,7 @@ function CreatureComponent() {
                     )}
 
                     <div className={styles.property}>
-                        <span
-                            className={styles.propertyName}>Challenge</span> {creature.challengeRating?.rating || 1} ({creature.challengeRating?.xp || 200} XP)
+                        <span className={styles.propertyName}>Challenge</span> {creature.challengeRating?.rating || 1} ({creature.challengeRating?.xp || 200} XP)
                     </div>
                 </div>
 
@@ -205,8 +204,8 @@ function CreatureComponent() {
                             <div className={styles.creatureCardContent}>
                                 <div className={styles.creatureHeader}>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
-                                    <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
                                 </div>
+                                <div className={styles.creatureType}>{formatCreatureType(creature)}</div>
                                 <div className={styles.creatureContent}>
                                     {renderCreatureDetails(creature)}
                                 </div>
