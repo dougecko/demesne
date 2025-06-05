@@ -1,27 +1,44 @@
+@import '../styles/Card.module.css';
+
 .creature-component {
     margin: 2rem 0;
     flex-wrap: wrap;
     gap: 0.5rem;
+    width: 100%;
 }
 
-.loadingContainer, .errorContainer {
-    width: 100%;
-    padding: 2rem;
+.loadingContainer {
     text-align: center;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #666;
 }
 
 .errorContainer {
+    text-align: center;
+    padding: 2rem;
     color: #d32f2f;
-    font-weight: 500;
+}
+
+.errorContainer button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #580C00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.errorContainer button:hover {
+    background-color: #7a1000;
 }
 
 .creatureHeader {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    padding: 1rem;
 }
 
 .creatureHeader h1 {
@@ -75,15 +92,53 @@
 }
 
 .creatureCard {
-    width: 100%;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+    width: var(--card-width);
+    filter: var(--card-filter);
+    font-family: var(--card-font-family);
+    background-color: var(--card-background);
+    color: var(--card-color);
+    padding: var(--card-padding);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--card-radius);
+    position: relative;
+    cursor: pointer;
+    transition: var(--card-transition);
 }
 
-/* D&D 5e Style Stat Block */
+.creatureCard:hover {
+    transform: var(--card-hover-transform);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.creatureCardContent {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    opacity: 1;
+}
+
+.cardCollapsed .creatureCardContent {
+    max-height: var(--card-content-max-height-collapsed);
+    opacity: 1;
+}
+
+.cardExpanded .creatureCardContent {
+    max-height: var(--card-content-max-height-expanded);
+    opacity: 1;
+}
+
+.cardCollapsed .creatureContent {
+    display: none;
+}
+
+.cardExpanded .creatureContent {
+    display: block;
+}
+
 .statBlock {
     font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
-    background-color: #F0E4C9; /* Darker parchment color */
-    color: #2B2117; /* Dark brown text */
+    background-color: #F0E4C9;
+    color: #2B2117;
     padding: 0.6rem;
     border: 1px solid #C9B07C;
     box-shadow: 0 0 3px #867453;
@@ -94,11 +149,12 @@
 .statBlockHeader {
     text-align: center;
     margin-bottom: 0.3rem;
+    padding: 0.5rem;
 }
 
 .creatureName {
-    color: #580C00; /* Darker red for better contrast */
-    font-size: 1.6rem;
+    color: var(--card-name-color);
+    font-size: var(--card-name-size);
     font-variant: small-caps;
     font-weight: bold;
     letter-spacing: 1px;
@@ -108,9 +164,9 @@
 
 .creatureType {
     font-style: italic;
-    font-size: 0.9rem;
+    font-size: var(--card-type-size);
     margin: 0.2rem 0 0;
-    color: #3A3226; /* Dark brown */
+    color: var(--card-type-color);
 }
 
 .statBlockDivider {
@@ -128,7 +184,6 @@
     margin-bottom: 0.5rem;
 }
 
-/* Stat block ability scores */
 .abilityScores {
     display: flex;
     justify-content: space-between;
@@ -146,21 +201,20 @@
     font-weight: bold;
     font-size: 0.85rem;
     margin-bottom: 0.2rem;
-    color: #581C00; /* Darker red */
+    color: #581C00;
 }
 
 .abilityValue {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #2B2117; /* Dark brown */
+    color: #2B2117;
 }
 
 .abilityMod {
     font-size: 0.9rem;
-    color: #3A3226; /* Medium brown */
+    color: #3A3226;
 }
 
-/* Stat block properties */
 .statBlockProperties {
     display: flex;
     flex-direction: column;
@@ -175,7 +229,7 @@
 .propertyName, .statLabel {
     font-weight: bold;
     font-style: italic;
-    color: #581C00; /* Darker red for labels */
+    color: #581C00;
 }
 
 .basicStat {
@@ -186,6 +240,39 @@
     margin-top: 0.8rem;
     font-size: 0.95rem;
     line-height: 1.5;
+}
+
+.reloadButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reloadButton:hover {
+    transform: rotate(180deg);
+}
+
+.reloadButtonSpin {
+    animation: spin 1s linear infinite;
+}
+
+.reloadButton img {
+    width: 24px;
+    height: 24px;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 480px) {
@@ -205,63 +292,62 @@
         width: 30%;
         margin-bottom: 0.5rem;
     }
-
-    .statBlockBasics, .statBlockProperties {
-        font-size: 0.9rem;
-    }
-
-    .statBlockDescription {
-        font-size: 0.85rem;
-    }
 }
 
 @media (max-width: 768px) and (min-width: 481px) {
     .creaturesGrid {
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 
-.stats-table th, .saves-table th {
+.creatureCard .stats-table th, .creatureCard .saves-table th {
     background-color: #f5f5f5;
 }
 
-.skills-list {
+.creatureCard .skills-list {
     padding-left: 1.5rem;
 }
 
-.reloadButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: transform 0.3s ease;
+.creatureList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.creatureContent {
+    composes: statBlockContent;
+}
+
+.creatureDivider {
+    height: var(--card-divider-height);
+    background: linear-gradient(to right, transparent, var(--card-divider-color), transparent);
+    margin: 0.5rem 0;
+}
+
+.creatureExpandIndicator {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    align-items: center;
+    margin-top: 8px;
 }
 
-.reloadButton img {
-    width: 24px;
-    height: 24px;
+.creatureExpandTriangleCollapsed,
+.creatureExpandTriangleExpanded {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    transition: transform 0.2s ease;
 }
 
-.reloadButton:hover {
+.creatureExpandTriangleCollapsed {
+    border-top: 6px solid var(--card-text);
+    transform: rotate(0deg);
+}
+
+.creatureExpandTriangleExpanded {
+    border-bottom: 6px solid var(--card-text);
     transform: rotate(180deg);
-}
-
-.reloadButton:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.reloadButtonSpin {
-    animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
 

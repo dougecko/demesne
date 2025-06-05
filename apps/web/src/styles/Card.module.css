@@ -1,0 +1,125 @@
+:root {
+    --card-width: 100%;
+    --card-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+    --card-font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
+    --card-background: #F0E4C9;
+    --card-color: #2B2117;
+    --card-padding: 0.6rem;
+    --card-border: 1px solid #C9B07C;
+    --card-shadow: 0 0 3px #867453;
+    --card-radius: 5px;
+    --card-transition: all 0.3s ease;
+    --card-hover-transform: translateY(-2px);
+    --card-hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    --card-content-max-height-collapsed: 200px;
+    --card-content-max-height-expanded: 2000px;
+    --card-name-color: #580C00;
+    --card-name-size: 1.6rem;
+    --card-type-color: #3A3226;
+    --card-type-size: 0.9rem;
+    --card-divider-height: 1px;
+    --card-divider-color: #867453;
+    --card-expand-indicator-size: 8px;
+    --card-expand-indicator-color: #580C00;
+}
+
+.card {
+    width: var(--card-width);
+    filter: var(--card-filter);
+    font-family: var(--card-font-family);
+    background-color: var(--card-background);
+    color: var(--card-color);
+    padding: var(--card-padding);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--card-radius);
+    position: relative;
+    cursor: pointer;
+    transition: var(--card-transition);
+}
+
+.card:hover {
+    transform: var(--card-hover-transform);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.cardContent {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    opacity: 1;
+}
+
+.cardCollapsed .cardContent {
+    max-height: var(--card-content-max-height-collapsed);
+    opacity: 1;
+}
+
+.cardExpanded .cardContent {
+    max-height: var(--card-content-max-height-expanded);
+    opacity: 1;
+}
+
+.cardCollapsed .statBlockContent {
+    display: none;
+}
+
+.cardExpanded .statBlockContent {
+    display: block;
+}
+
+.statBlockHeader {
+    text-align: center;
+    margin-bottom: 0.3rem;
+    padding: 0.5rem;
+}
+
+.cardName {
+    color: var(--card-name-color);
+    font-size: var(--card-name-size);
+    font-variant: small-caps;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+}
+
+.cardType {
+    font-style: italic;
+    font-size: var(--card-type-size);
+    margin: 0.2rem 0 0;
+    color: var(--card-type-color);
+}
+
+.statBlockDivider {
+    height: var(--card-divider-height);
+    background: linear-gradient(to right, transparent, var(--card-divider-color), transparent);
+    margin: 0.5rem 0;
+}
+
+.expandIndicator {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.expandIndicatorTriangle {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    transition: transform 0.3s ease;
+}
+
+.expandIndicatorTriangleCollapsed {
+    border-top: var(--card-expand-indicator-size) solid var(--card-expand-indicator-color);
+    transform: rotate(0deg);
+}
+
+.expandIndicatorTriangleExpanded {
+    border-top: var(--card-expand-indicator-size) solid var(--card-expand-indicator-color);
+    transform: rotate(180deg);
+} 

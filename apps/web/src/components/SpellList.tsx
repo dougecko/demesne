@@ -8,6 +8,7 @@ export const SpellList = () => {
   const [spells, setSpells] = useState<Spell[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
   const fetchSpells = async () => {
     setLoading(true);
@@ -30,8 +31,61 @@ export const SpellList = () => {
     fetchSpells();
   };
 
+  const toggleCard = (id: string) => {
+    setExpandedCards(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const renderSpellDetails = (spell: Spell) => {
+    return (
+      <div className={styles.statBlock}>
+        <div className={styles.statBlockBasics}>
+          <div className={styles.basicStat}>
+            <span className={styles.statLabel}>Casting Time</span> {spell.castingTime}
+          </div>
+          <div className={styles.basicStat}>
+            <span className={styles.statLabel}>Range</span> {spell.range}
+          </div>
+          <div className={styles.basicStat}>
+            <span className={styles.statLabel}>Duration</span> {spell.duration}
+          </div>
+        </div>
+
+        <div className={styles.statBlockDivider}></div>
+
+        <div className={styles.statBlockProperties}>
+          <div className={styles.property}>
+            <span className={styles.propertyName}>Components</span> {spell.components.join(', ')}
+            {spell.material && <span className={styles.material}> ({spell.material})</span>}
+          </div>
+          <div className={styles.property}>
+            <span className={styles.propertyName}>Classes</span> {spell.classes.join(', ')}
+          </div>
+          {spell.higherLevel && (
+            <div className={styles.property}>
+              <span className={styles.propertyName}>At Higher Levels</span> {spell.higherLevel}
+            </div>
+          )}
+        </div>
+
+        <div className={styles.statBlockDivider}></div>
+
+        <div className={styles.statBlockDescription}>
+          <p>{spell.description}</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div>
+    <div className={styles['spell-component']}>
       <div className={styles.spellHeader}>
         <h1>Spells</h1>
         <button
@@ -46,45 +100,28 @@ export const SpellList = () => {
       {loading ? (
         <div className={styles.loadingContainer}>Loading...</div>
       ) : error ? (
-        <div className={styles.errorContainer}>Error: {error}</div>
+        <div className={styles.errorContainer}>
+          <p>{error}</p>
+          <button onClick={handleReload}>Try Again</button>
+        </div>
       ) : (
-        <div className={styles.spellsGrid}>
-          {spells.map((spell) => (
-            <div key={spell.id} className={styles.spellCard}>
-              <div className={styles.statBlockHeader}>
-                <h3 className={styles.creatureName}>{spell.name}</h3>
-                <p className={styles.creatureType}>Level {spell.level} {spell.school}</p>
-              </div>
-              <div className={styles.statBlockDivider}></div>
-              <div className={styles.statBlockBasics}>
-                <div className={styles.basicStat}>
-                  <span className={styles.statLabel}>Casting Time</span> {spell.castingTime}
+        <div className={styles.spellList}>
+          {spells.map(spell => (
+            <div
+              key={spell.id}
+              className={`${styles.spellCard} ${expandedCards.has(spell.id) ? styles.cardExpanded : styles.cardCollapsed}`}
+              onClick={() => toggleCard(spell.id)}>
+              <div className={styles.spellCardContent}>
+                <div className={styles.spellHeader}>
+                  <h3 className={styles.spellName}>{spell.name}</h3>
+                  <p className={styles.spellLevel}>{spell.level === 0 ? 'Cantrip' : `Level ${spell.level}`}</p>
                 </div>
-                <div className={styles.basicStat}>
-                  <span className={styles.statLabel}>Range</span> {spell.range}
+                <div className={styles.spellContent}>
+                  {renderSpellDetails(spell)}
                 </div>
-                <div className={styles.basicStat}>
-                  <span className={styles.statLabel}>Duration</span> {spell.duration}
+                <div className={styles.spellExpandIndicator}>
+                  <span className={expandedCards.has(spell.id) ? styles.spellExpandTriangleExpanded : styles.spellExpandTriangleCollapsed}></span>
                 </div>
-              </div>
-              <div className={styles.statBlockDivider}></div>
-              <div className={styles.statBlockProperties}>
-                <div className={styles.property}>
-                  <span className={styles.propertyName}>Components</span> {spell.components.join(', ')}
-                  {spell.material && <span> ({spell.material})</span>}
-                </div>
-                <div className={styles.property}>
-                  <span className={styles.propertyName}>Classes</span> {spell.classes.join(', ')}
-                </div>
-                {spell.higherLevel && (
-                  <div className={styles.property}>
-                    <span className={styles.propertyName}>At Higher Levels</span> {spell.higherLevel}
-                  </div>
-                )}
-              </div>
-              <div className={styles.statBlockDivider}></div>
-              <div className={styles.statBlockDescription}>
-                <p>{spell.description}</p>
               </div>
             </div>
           ))}

@@ -8,6 +8,10 @@ function CreatureComponent() {
     const [creatures, setCreatures] = useState<Creature[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
+
+    // Get all stat keys for mapping
+    const statKeys = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'] as const;
 
     const fetchCreatures = async () => {
         setLoading(true);
@@ -27,9 +31,20 @@ function CreatureComponent() {
         fetchCreatures();
     }, []);
 
-    // Handle reload button click
     const handleReload = () => {
         fetchCreatures();
+    };
+
+    const toggleCard = (id: string) => {
+        setExpandedCards(prev => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return next;
+        });
     };
 
     // @ts-ignore
@@ -77,16 +92,13 @@ function CreatureComponent() {
     }
 
     // Function to render stat block in D&D 5e style
-    const renderStatBlock = (creature: Creature) => {
-        // Get all stat keys for mapping
-        const statKeys = Object.keys(creature.stats) as Array<keyof typeof creature.stats>;
-
+    const renderCreatureDetails = (creature: Creature) => {
         // Format saving throws if they exist
         const hasSavingThrows = !allFieldsEmpty(creature.savingThrows);
         const savingThrowsText = hasSavingThrows
             ? statKeys
                 .filter(key => creature.savingThrows[key])
-                .map(key => `${key.charAt(0).toUpperCase() + key.slice(1, 3)} ${creature.savingThrows[key]}`)
+                .map(key => `${key.charAt(0).toUpperCase() + key.slice(1)} ${creature.savingThrows[key]}`)
                 .join(', ')
             : 'none';
 
@@ -97,13 +109,6 @@ function CreatureComponent() {
 
         return (
             <div className={styles.statBlock}>
-                <div className={styles.statBlockHeader}>
-                    <h3 className={styles.creatureName}>{creature.name}</h3>
-                    <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
-                </div>
-
-                <div className={styles.statBlockDivider}></div>
-
                 <div className={styles.statBlockBasics}>
                     <div className={styles.basicStat}>
                         <span className={styles.statLabel}>Armor Class</span> {creature.armorClass}
@@ -121,7 +126,7 @@ function CreatureComponent() {
                 <div className={styles.abilityScores}>
                     {statKeys.map(key => (
                         <div key={key} className={styles.abilityScore}>
-                            <div className={styles.abilityName}>{key.charAt(0).toUpperCase() + key.slice(1, 3)}</div>
+                            <div className={styles.abilityName}>{key.charAt(0).toUpperCase() + key.slice(1,3)}</div>
                             <div className={styles.abilityValue}>{creature.stats[key].value}</div>
                             <div
                                 className={styles.abilityMod}>{creature.stats[key].modifier >= 0 ? `+${creature.stats[key].modifier}` : creature.stats[key].modifier}</div>
@@ -170,7 +175,7 @@ function CreatureComponent() {
     };
 
     return (
-        <div>
+        <div className={styles['creature-component']}>
             <div className={styles.creatureHeader}>
                 <h1>Creatures</h1>
                 <button
@@ -186,12 +191,29 @@ function CreatureComponent() {
             {loading ? (
                 <div className={styles.loadingContainer}>Loading...</div>
             ) : error ? (
-                <div className={styles.errorContainer}>Error: {error}</div>
+                <div className={styles.errorContainer}>
+                    <p>{error}</p>
+                    <button onClick={handleReload}>Try Again</button>
+                </div>
             ) : (
-                <div className={styles.creaturesGrid}>
+                <div className={styles.creatureList}>
                     {creatures.map(creature => (
-                        <div key={creature.id} className={styles.creatureCard}>
-                            {renderStatBlock(creature)}
+                        <div
+                            key={creature.id}
+                            className={`${styles.creatureCard} ${expandedCards.has(creature.id) ? styles.cardExpanded : styles.cardCollapsed}`}
+                            onClick={() => toggleCard(creature.id)}>
+                            <div className={styles.creatureCardContent}>
+                                <div className={styles.creatureHeader}>
+                                    <h3 className={styles.creatureName}>{creature.name}</h3>
+                                    <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
+                                </div>
+                                <div className={styles.creatureContent}>
+                                    {renderCreatureDetails(creature)}
+                                </div>
+                                <div className={styles.creatureExpandIndicator}>
+                                    <span className={expandedCards.has(creature.id) ? styles.creatureExpandTriangleExpanded : styles.creatureExpandTriangleCollapsed}></span>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
