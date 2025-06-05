@@ -3,6 +3,10 @@
   "include": [
     "./vite.config.ts",
     "../api/src/models/types.mts",
+    "../api/src/services/*.mts",
+    "../api/src/utils/*.mts",
+    "../api/src/index.ts",
+    "../../packages/types/src/**/*.ts",
     "src"
   ],
   "compilerOptions": {
@@ -27,9 +31,15 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+
+    /* Paths */
+    "baseUrl": ".",
+    "paths": {
+      "@demesne/api": ["../api/src"],
+      "@demesne/types": ["../../packages/types/src"]
+    },
 
     "types": ["vite/client"]
   },

@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/index.mts",
+    "dev": "tsx watch --inspect src/index.mts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint .",

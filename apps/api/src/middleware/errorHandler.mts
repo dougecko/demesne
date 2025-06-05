@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import type {ApiError} from '@demesne/types';
+import type { ApiError } from '@demesne/types';
 import logger from '../config/logger.mts';
 
 export const errorHandler = (
@@ -8,7 +8,7 @@ export const errorHandler = (
     res: Response
 ) => {
     const statusCode = err.statusCode || 500;
-    logger.error(`[Error] ${err.message}`)
+    logger.error(`[Error] ${err.message}`);
 
     res.status(statusCode).json({
         status: 'error',

@@ -1,9 +1,8 @@
 import {useEffect, useState} from 'react';
-import {api} from '../utils/api';
-import logger from '../utils/logger';
-import type {Creature} from '@demesne/types'; // You could create a shared types package
+import type {Creature} from '@demesne/types';
 import styles from './CreatureComponent.module.css';
 import brassReload from '../assets/brass-reload.svg';
+import { getCreatures } from '../api/client';
 
 function CreatureComponent() {
     const [creatures, setCreatures] = useState<Creature[]>([]);
@@ -11,12 +10,11 @@ function CreatureComponent() {
     const [error, setError] = useState<string | null>(null);
 
     const fetchCreatures = async () => {
-        logger.debug("Fetching creatures");
         setLoading(true);
         setError(null);
 
         try {
-            const data = await api.get<Creature[]>('/creatures');
+            const data = await getCreatures();
             setCreatures(data);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');

@@ -5,6 +5,7 @@ import demesneLogo from './assets/demesne-logo.png'
 // import ExampleComponent from './components/ExampleComponent'
 import './App.css'
 import CreatureComponent from "./components/CreatureComponent.tsx";
+import { SpellList } from "./components/SpellList.tsx";
 
 function App() {
     // const [count, setCount] = useState(0)
@@ -36,6 +37,7 @@ function App() {
             </div>
 */}
 
+            <SpellList />
             <CreatureComponent />
 
 {/*

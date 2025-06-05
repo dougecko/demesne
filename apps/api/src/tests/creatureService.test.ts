@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getCreatures, createCreature } from '../services/creatureService.mjs';
+import { getCreatures } from '../services/creatureService.mjs';
 import { mockCreatures } from './mockData.js';
 import fetch from 'node-fetch';
 

@@ -106,7 +106,7 @@ export const getCreatures = async (): Promise<Creature[]> => {
             throw new Error(errorMessage);
         }
         
-        const data = await response.json();
+        const data = await response.json() as { results: Array<{ index: string }> };
         if (!data.results || !Array.isArray(data.results)) {
             const errorMessage = 'Invalid API response format: missing or invalid results array';
             logger.error(errorMessage);
@@ -122,7 +122,7 @@ export const getCreatures = async (): Promise<Creature[]> => {
                     logger.warn(`Failed to fetch details for monster ${monster.index}: ${monsterResponse.status} ${monsterResponse.statusText}`);
                     return null;
                 }
-                const monsterData = await monsterResponse.json();
+                const monsterData = await monsterResponse.json() as Parameters<typeof transformMonster>[0];
                 return transformMonster(monsterData);
             } catch (error) {
                 logger.error(`Error fetching details for monster ${monster.index}:`, error);
