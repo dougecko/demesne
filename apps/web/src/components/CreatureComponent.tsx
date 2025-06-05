@@ -78,7 +78,7 @@ function CreatureComponent() {
                     <tr>
                         {!allFieldsEmpty(creature.savingThrows) ? statKeys.map(key => (
                             <td key={key}>{creature.savingThrows[key]}</td>
-                        )) : "none"}
+                        )) : <td>none</td>}
                     </tr>
                     </tbody>
                 </table>
