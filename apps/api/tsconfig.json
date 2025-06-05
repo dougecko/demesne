@@ -1,7 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "include": [
-    "src"
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ],
   "compilerOptions": {
     "types": ["node"],
@@ -12,7 +16,7 @@
     "target": "ESNext",
     "lib": ["ES2023"],
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
 
     "skipLibCheck": true,

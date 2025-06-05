@@ -30,5 +30,8 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-  }
+
+    "types": ["vite/client"]
+  },
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
