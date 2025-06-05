@@ -42,7 +42,7 @@ function CreatureComponent() {
 
     // Helper function to render senses
     const renderSenses = (senses: Creature['senses']) => {
-        if (!senses) return 'passive Perception 10';
+        if (!senses) return 'unknown';
 
         const sensesArray = [];
 
@@ -65,6 +65,16 @@ function CreatureComponent() {
         sensesArray.push(`passive Perception ${senses.passivePerception}`);
 
         return sensesArray.join(', ');
+    }
+
+    // Helper function to format creature type
+    const formatCreatureType = (creature: Creature) => {
+        if (!creature.creatureType) {
+            return 'unknown';
+        }
+
+        const { size, type, subtype, alignment } = creature.creatureType;
+        return `${size} ${type}${subtype ? ` (${subtype})` : ''}, ${alignment}`;
     }
 
     // Function to render stat block in D&D 5e style
@@ -90,7 +100,7 @@ function CreatureComponent() {
             <div className={styles.statBlock}>
                 <div className={styles.statBlockHeader}>
                     <h3 className={styles.creatureName}>{creature.name}</h3>
-                    <p className={styles.creatureType}>Medium humanoid, neutral</p>
+                    <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
                 </div>
 
                 <div className={styles.statBlockDivider}></div>

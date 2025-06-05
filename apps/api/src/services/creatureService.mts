@@ -41,6 +41,12 @@ const creatures: Creature[] = [
         challengeRating: {
             rating: 0.25,
             xp: 50
+        },
+        creatureType: {
+            size: 'Small',
+            type: 'humanoid',
+            subtype: 'goblinoid',
+            alignment: 'neutral evil'
         }
     },
     {
@@ -75,6 +81,11 @@ const creatures: Creature[] = [
         challengeRating: {
             rating: 3,
             xp: 700
+        },
+        creatureType: {
+            size: 'Large',
+            type: 'monstrosity',
+            alignment: 'unaligned'
         }
     },
     {
@@ -110,6 +121,11 @@ const creatures: Creature[] = [
         challengeRating: {
             rating: 8,
             xp: 3900
+        },
+        creatureType: {
+            size: 'Large',
+            type: 'dragon',
+            alignment: 'lawful evil'
         }
     }
 ];

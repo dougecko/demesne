@@ -1,3 +1,18 @@
+export interface CreatureType {
+    size: Size;
+    type: string;
+    subtype?: string;
+    alignment: Alignment;
+}
+
+export type Size = 'Tiny' | 'Small' | 'Medium' | 'Large' | 'Huge' | 'Gargantuan';
+
+export type Alignment = 
+    'lawful good' | 'neutral good' | 'chaotic good' |
+    'lawful neutral' | 'true neutral' | 'chaotic neutral' |
+    'lawful evil' | 'neutral evil' | 'chaotic evil' |
+    'unaligned' | 'any alignment';
+
 export interface Creature extends Target {
     id: string;
     name: string;
@@ -11,6 +26,7 @@ export interface Creature extends Target {
         rating: number;
         xp: number;
     };
+    creatureType: CreatureType;
 }
 
 export interface Senses {
