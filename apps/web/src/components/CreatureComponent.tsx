@@ -49,7 +49,7 @@ function CreatureComponent() {
 
     const allFieldsEmpty = (obj: Object): boolean => {
         return Object.values(obj).every(
-            val => val === 0 || val === null || val === undefined
+            val => val === "" || val === 0 || val === null || val === undefined
         );
     }
 
