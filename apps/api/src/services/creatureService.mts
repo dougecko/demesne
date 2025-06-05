@@ -18,40 +18,61 @@ function parseSense(senses: string[] | undefined, senseName: string, fallback: n
   return isNaN(value) ? fallback : value;
 }
 
+const parsePassivePerception = (senses: string[]): number => {
+    const passivePerception = senses.find(s => s.includes('passive Perception'));
+    if (passivePerception) {
+        const match = passivePerception.match(/\d+/);
+        return match ? parseInt(match[0]) : 10;
+    }
+    return 10;
+};
+
 // Transform D&D API monster data to our Creature type
 const transformMonster = (monster: {
   index: string;
   name: string;
-  desc?: string;
+  desc?: string[];
+  size?: string;
+  type?: string;
+  subtype?: string;
+  alignment?: string;
+  armor_class?: Array<{ value: number }>;
+  hit_points?: number;
+  speed?: { walk?: number };
   strength?: number;
   dexterity?: number;
   constitution?: number;
   intelligence?: number;
   wisdom?: number;
   charisma?: number;
-  armor_class?: Array<{ value: number }>;
-  hit_points?: number;
-  speed?: { walk?: number };
   proficiencies?: Array<{ proficiency: { name: string }; value: number }>;
-  strength_save?: number;
-  dexterity_save?: number;
-  constitution_save?: number;
-  intelligence_save?: number;
-  wisdom_save?: number;
-  charisma_save?: number;
+  damage_vulnerabilities?: string[];
+  damage_resistances?: string[];
+  damage_immunities?: string[];
+  condition_immunities?: Array<{ name: string }>;
   senses?: string[];
   languages?: Array<{ name: string }>;
   challenge_rating?: string;
   xp?: number;
-  size?: string;
-  type?: string;
-  subtype?: string;
-  alignment?: string;
+  special_abilities?: Array<{ name: string; desc: string }>;
+  actions?: Array<{ name: string; desc: string }>;
+  legendary_actions?: Array<{ name: string; desc: string }>;
 }): Creature => {
+    // Combine special abilities, actions, and legendary actions into a single description
+    const specialAbilities = monster.special_abilities?.map(ability => `${ability.name}. ${ability.desc}`).join('\n\n') || '';
+    const actions = monster.actions?.map(action => `${action.name}. ${action.desc}`).join('\n\n') || '';
+    const legendaryActions = monster.legendary_actions?.map(action => `${action.name}. ${action.desc}`).join('\n\n') || '';
+    
+    const fullDescription = [
+        specialAbilities,
+        actions,
+        legendaryActions
+    ].filter(Boolean).join('\n\n');
+
     return {
         id: monster.index,
         name: monster.name,
-        description: monster.desc || 'No description available.',
+        description: fullDescription || 'No description available.',
         stats: {
             strength: createValue(monster.strength || 10),
             dexterity: createValue(monster.dexterity || 10),
@@ -67,27 +88,27 @@ const transformMonster = (monster: {
             ?.filter((p) => p.proficiency.name.startsWith('Skill: '))
             .map((p) => `${p.proficiency.name.replace('Skill: ', '')} +${p.value}`) || [],
         savingThrows: {
-            strength: monster.strength_save || 0,
-            dexterity: monster.dexterity_save || 0,
-            constitution: monster.constitution_save || 0,
-            intelligence: monster.intelligence_save || 0,
-            wisdom: monster.wisdom_save || 0,
-            charisma: monster.charisma_save || 0
+            strength: 0,
+            dexterity: 0,
+            constitution: 0,
+            intelligence: 0,
+            wisdom: 0,
+            charisma: 0
         },
         senses: {
             darkvision: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'darkvision'),
             blindsight: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'blindsight'),
             tremorsense: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'tremorsense'),
             truesight: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'truesight'),
-            passivePerception: parseSense(Array.isArray(monster.senses) ? monster.senses : [], 'passive Perception', 10) ?? 10
+            passivePerception: parsePassivePerception(Array.isArray(monster.senses) ? monster.senses : [])
         },
-        languages: (Array.isArray(monster.languages) ? monster.languages.map((l) => l.name).filter((name): name is string => typeof name === 'string') : []) || [],
+        languages: Array.isArray(monster.languages) ? monster.languages.map(l => l.name) : [],
         challengeRating: {
-            rating: parseFloat(monster.challenge_rating ?? '0') || 0,
+            rating: parseFloat(monster.challenge_rating || '0'),
             xp: monster.xp || 0
         },
         creatureType: {
-            size: typeof monster.size === 'string' ? (monster.size as Size) : 'Medium',
+            size: (monster.size as Size) || 'Medium',
             type: typeof monster.type === 'string' ? monster.type : 'unknown',
             subtype: typeof monster.subtype === 'string' ? monster.subtype : undefined,
             alignment: typeof monster.alignment === 'string' ? (monster.alignment as Alignment) : 'unaligned'
@@ -127,6 +148,7 @@ export const getCreatures = async (): Promise<Creature[]> => {
                     return null;
                 }
                 const monsterData = await monsterResponse.json() as Parameters<typeof transformMonster>[0];
+                logger.info(`Monster ${monster.index} description:`, monsterData.desc);
                 return transformMonster(monsterData);
             } catch (error) {
                 logger.error(`Error fetching details for monster ${monster.index}:`, error);
