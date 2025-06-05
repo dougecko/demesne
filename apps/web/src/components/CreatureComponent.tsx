@@ -172,17 +172,15 @@ function CreatureComponent() {
     return (
         <div>
             <div className={styles.creatureHeader}>
-                <h1>
-                    Creatures
-                    <button
-                        onClick={handleReload}
-                        disabled={loading}
-                        className={`${styles.reloadButton} ${loading ? styles.reloadButtonSpin : ''}`}
-                        title="Reload creatures"
-                        aria-label="Reload creatures">
-                        <img src={brassReload} alt="Reload" />
-                    </button>
-                </h1>
+                <h1>Creatures</h1>
+                <button
+                    onClick={handleReload}
+                    disabled={loading}
+                    className={`${styles.reloadButton} ${loading ? styles.reloadButtonSpin : ''}`}
+                    title="Reload creatures"
+                    aria-label="Reload creatures">
+                    <img src={brassReload} alt="Reload" />
+                </button>
             </div>
 
             {loading ? (

@@ -230,25 +230,21 @@
 }
 
 .reloadButton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background-color: transparent;
+    background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
-    margin-left: 12px;
-    transition: transform 0.8s ease;
-    vertical-align: middle;
-    position: relative;
-    top: -2px;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
 }
 
 .reloadButton img {
-    width: 100%;
-    height: 100%;
+    width: 24px;
+    height: 24px;
 }
 
 .reloadButton:hover {
