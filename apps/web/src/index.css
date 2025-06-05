@@ -31,8 +31,38 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: calc(1.8rem + 1.5vw);
   line-height: 1.1;
+}
+
+h2 {
+  font-size: calc(1.4rem + 0.8vw);
+}
+
+h3 {
+  font-size: calc(1.2rem + 0.5vw);
+}
+
+h4 {
+  font-size: calc(1rem + 0.3vw);
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+  }
 }
 
 button {
@@ -48,6 +78,12 @@ button {
 }
 button:hover {
   border-color: #646cff;
+  -webkit-overflow-scrolling: touch; /* Improve scrolling on iOS */
+}
+
+/* Improve touch experience */
+input, button, a {
+  touch-action: manipulation;
 }
 button:focus,
 button:focus-visible {
