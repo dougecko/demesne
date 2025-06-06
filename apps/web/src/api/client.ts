@@ -1,7 +1,6 @@
 import type { Creature, Spell } from '@demesne/types';
 
-// Use the full URL to the API server
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 const defaultHeaders = {
   'Accept': 'application/json',
@@ -9,7 +8,7 @@ const defaultHeaders = {
 };
 
 export const getCreatures = async (): Promise<Creature[]> => {
-  const response = await fetch(`${API_BASE}/creatures`, {
+  const response = await fetch(`${API_BASE_URL}/api/creatures`, {
     method: 'GET',
     headers: defaultHeaders,
   });
@@ -23,7 +22,7 @@ export const getCreatures = async (): Promise<Creature[]> => {
 };
 
 export const getSpells = async (): Promise<Spell[]> => {
-  const response = await fetch(`${API_BASE}/spells`, {
+  const response = await fetch(`${API_BASE_URL}/api/spells`, {
     method: 'GET',
     headers: defaultHeaders,
   });
