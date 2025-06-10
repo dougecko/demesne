@@ -42,217 +42,43 @@
 }
 
 .spellCard {
-    width: var(--card-width);
-    filter: var(--card-filter);
-    font-family: var(--card-font-family);
-    background-color: var(--card-background);
-    color: var(--card-color);
-    padding: var(--card-padding);
-    border: var(--card-border);
-    box-shadow: var(--card-shadow);
-    border-radius: var(--card-radius);
-    position: relative;
-    cursor: pointer;
-    transition: var(--card-transition);
-    max-width: 380px;
-    margin: 0 auto;
+    composes: card from '../styles/Card.module.css';
 }
 
 .spellCardContent {
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    opacity: 1;
-}
-
-.cardCollapsed .spellCardContent {
-    max-height: var(--card-content-max-height-collapsed);
-    opacity: 1;
-}
-
-.cardExpanded .spellCardContent {
-    max-height: var(--card-content-max-height-expanded);
-    opacity: 1;
-}
-
-.cardCollapsed .spellContent {
-    display: none;
-}
-
-.cardExpanded .spellContent {
-    display: block;
+    composes: cardContent from '../styles/Card.module.css';
 }
 
 .spellName {
-    color: var(--card-name-color);
-    font-size: var(--card-name-size);
-    font-variant: small-caps;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin: 0;
-    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+    composes: cardName from '../styles/Card.module.css';
 }
 
 .spellLevel {
-    font-style: italic;
-    font-size: var(--card-type-size);
-    margin: 0.2rem 0 0;
-    color: var(--card-type-color);
+    composes: cardType from '../styles/Card.module.css';
 }
 
 .spellContent {
+    composes: content from '../styles/Card.module.css';
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.statBlock {
-    font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
-    background-color: #F0E4C9;
-    color: #2B2117;
-    padding: 0.6rem;
-    border: 1px solid #C9B07C;
-    box-shadow: 0 0 3px #867453;
-    border-radius: 5px;
-    position: relative;
+.spellExpandIndicator {
+    composes: expandIndicator from '../styles/Card.module.css';
 }
 
-.statBlockBasics {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-bottom: 0.5rem;
+.spellExpandTriangleCollapsed {
+    composes: expandTriangleCollapsed from '../styles/Card.module.css';
 }
 
-.basicStat {
-    line-height: 1.4;
-}
-
-.statLabel {
-    font-weight: bold;
-    color: #581C00;
-}
-
-.statBlockDivider {
-    height: 5px;
-    background: linear-gradient(to right, transparent, #6A0D00, #6A0D00, #6A0D00, transparent);
-    margin: 0.5rem 0;
-    position: relative;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-}
-
-.statBlockProperties {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin: 0.5rem 0;
-}
-
-.property {
-    line-height: 1.4;
-}
-
-.propertyName {
-    font-weight: bold;
-    font-style: italic;
-    color: #581C00;
+.spellExpandTriangleExpanded {
+    composes: expandTriangleExpanded from '../styles/Card.module.css';
 }
 
 .material {
     font-style: italic;
     color: #3A3226;
-}
-
-.statBlockDescription {
-    margin-top: 0.8rem;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-.spellExpandIndicator {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-}
-
-.spellExpandTriangleCollapsed,
-.spellExpandTriangleExpanded {
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    transition: transform 0.2s ease;
-}
-
-.spellExpandTriangleCollapsed {
-    border-top: 6px solid #580C00;
-    transform: rotate(0deg);
-}
-
-.spellExpandTriangleExpanded {
-    border-top: 6px solid #580C00;
-    transform: rotate(180deg);
-}
-
-.loadingContainer {
-    text-align: center;
-    padding: 2rem;
-    font-size: 1.2rem;
-    color: #666;
-}
-
-.errorContainer {
-    text-align: center;
-    padding: 2rem;
-    color: #d32f2f;
-}
-
-.errorContainer button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #580C00;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.errorContainer button:hover {
-    background-color: #7a1000;
-}
-
-.reloadButton {
-    padding: 0.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.reloadButton:hover {
-    transform: scale(1.1);
-}
-
-.reloadButtonSpin {
-    animation: spin 1s linear infinite;
-}
-
-.reloadButton img {
-    width: 24px;
-    height: 24px;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .spellList {
@@ -262,7 +88,34 @@
     width: 100%;
 }
 
+.loadingContainer {
+    composes: loadingContainer from '../styles/Card.module.css';
+}
+
+.errorContainer {
+    composes: errorContainer from '../styles/Card.module.css';
+}
+
+.reloadButton {
+    composes: reloadButton from '../styles/Card.module.css';
+}
+
+.reloadButtonSpin {
+    composes: reloadButtonSpin from '../styles/Card.module.css';
+}
+
 @media (max-width: 480px) {
+    .spellHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .spellHeader h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
+    }
+
     .spellList {
         grid-template-columns: 1fr;
     }
@@ -270,6 +123,6 @@
 
 @media (max-width: 768px) and (min-width: 481px) {
     .spellList {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 } 

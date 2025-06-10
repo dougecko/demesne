@@ -10,33 +10,6 @@
     flex: 1;
 }
 
-.loadingContainer {
-    text-align: center;
-    padding: 2rem;
-    font-size: 1.2rem;
-    color: #666;
-}
-
-.errorContainer {
-    text-align: center;
-    padding: 2rem;
-    color: #d32f2f;
-}
-
-.errorContainer button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #580C00;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.errorContainer button:hover {
-    background-color: #7a1000;
-}
-
 .creatureHeader {
     display: flex;
     justify-content: space-between;
@@ -96,104 +69,35 @@
 }
 
 .creatureCard {
-    width: var(--card-width);
-    filter: var(--card-filter);
-    font-family: var(--card-font-family);
-    background-color: var(--card-background);
-    color: var(--card-color);
-    padding: var(--card-padding);
-    border: var(--card-border);
-    box-shadow: var(--card-shadow);
-    border-radius: var(--card-radius);
-    position: relative;
-    cursor: pointer;
-    transition: var(--card-transition);
-    max-width: 380px;
-    margin: 0 auto;
-}
-
-.creatureCard:hover {
-    transform: var(--card-hover-transform);
-    box-shadow: var(--card-hover-shadow);
+    composes: card from '../styles/Card.module.css';
 }
 
 .creatureCardContent {
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    opacity: 1;
-}
-
-.cardCollapsed .creatureCardContent {
-    max-height: var(--card-content-max-height-collapsed);
-    opacity: 1;
-}
-
-.cardExpanded .creatureCardContent {
-    max-height: var(--card-content-max-height-expanded);
-    opacity: 1;
-}
-
-.cardCollapsed .creatureContent {
-    display: none;
-}
-
-.cardExpanded .creatureContent {
-    display: block;
-}
-
-.statBlock {
-    font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
-    background-color: #F0E4C9;
-    color: #2B2117;
-    padding: 0.6rem;
-    border: 1px solid #C9B07C;
-    box-shadow: 0 0 3px #867453;
-    border-radius: 5px;
-    position: relative;
-}
-
-.statBlockHeader {
-    text-align: center;
-    margin-bottom: 0.3rem;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+    composes: cardContent from '../styles/Card.module.css';
 }
 
 .creatureName {
-    color: var(--card-name-color);
-    font-size: var(--card-name-size);
-    font-variant: small-caps;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin: 0;
-    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
-    display: block;
-    width: 100%;
+    composes: cardName from '../styles/Card.module.css';
 }
 
 .creatureType {
-    font-style: italic;
-    font-size: var(--card-type-size);
-    margin: 0;
-    color: var(--card-type-color);
-    white-space: pre-line;
+    composes: cardType from '../styles/Card.module.css';
 }
 
-.statBlockDivider {
-    height: 5px;
-    background: linear-gradient(to right, transparent, #6A0D00, #6A0D00, #6A0D00, transparent);
-    margin: 0.5rem 0;
-    position: relative;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+.creatureContent {
+    composes: content from '../styles/Card.module.css';
 }
 
-.statBlockBasics {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-bottom: 0.5rem;
+.creatureExpandIndicator {
+    composes: expandIndicator from '../styles/Card.module.css';
+}
+
+.creatureExpandTriangleCollapsed {
+    composes: expandTriangleCollapsed from '../styles/Card.module.css';
+}
+
+.creatureExpandTriangleExpanded {
+    composes: expandTriangleExpanded from '../styles/Card.module.css';
 }
 
 .abilityScores {
@@ -227,95 +131,86 @@
     color: #3A3226;
 }
 
-.statBlockProperties {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
+.creatureDivider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #867453, transparent);
     margin: 0.5rem 0;
 }
 
-.property {
-    line-height: 1.4;
+.creatureList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    width: 100%;
 }
 
-.propertyName, .statLabel {
-    font-weight: bold;
-    font-style: italic;
-    color: #581C00;
+.loadingContainer {
+    composes: loadingContainer from '../styles/Card.module.css';
 }
 
-.basicStat {
-    line-height: 1.4;
-}
-
-.statBlockDescription {
-    padding: 1rem;
-    white-space: pre-line;
-}
-
-.statBlockDescription .property {
-    margin: 0.5rem 0;
-    line-height: 1.4;
-}
-
-.statBlockDescription .property:first-child {
-    margin-top: 0;
-}
-
-.statBlockDescription .property:last-child {
-    margin-bottom: 0;
-}
-
-.statBlockDescription .property .propertyName {
-    font-weight: bold;
-    font-style: italic;
-    color: #581C00;
-    margin-right: 0.5rem;
-}
-
-.statBlockDescription h3 {
-    color: var(--card-text);
-    margin: 1rem 0 0.5rem;
-    font-size: 1.1em;
-    font-weight: bold;
-}
-
-.statBlockDescription h3:first-child {
-    margin-top: 0;
-}
-
-.statBlockDescription p {
-    margin: 0.5rem 0;
-    line-height: 1.5;
-}
-
-.statBlockDescription ul {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
-}
-
-.statBlockDescription li {
-    margin: 0.5rem 0;
-    line-height: 1.5;
+.errorContainer {
+    composes: errorContainer from '../styles/Card.module.css';
 }
 
 .reloadButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    composes: reloadButton from '../styles/Card.module.css';
+}
+
+.reloadButtonSpin {
+    composes: reloadButtonSpin from '../styles/Card.module.css';
+}
+
+@media (max-width: 480px) {
+    .creatureHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .creatureHeader h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
+    }
+
+    .abilityScores {
+        gap: 0.5rem;
+    }
+
+    .abilityScore {
+        width: 14%;
+    }
+
+    .creatureList {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+    .creatureList {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+.creatureCard .stats-table th, .creatureCard .saves-table th {
+    background-color: #f5f5f5;
+}
+
+.creatureCard .skills-list {
+    padding-left: 1.5rem;
+}
+
+.creatureContent {
+    composes: content from '../styles/Card.module.css';
+}
+
+.creatureDivider {
+    height: var(--card-divider-height);
+    background: linear-gradient(to right, transparent, var(--card-divider-color), transparent);
+    margin: 0.5rem 0;
 }
 
 .reloadButton:hover {
     transform: rotate(180deg);
-}
-
-.reloadButtonSpin {
-    animation: spin 1s linear infinite;
 }
 
 .reloadButton img {
@@ -353,84 +248,6 @@
 
 @media (max-width: 768px) and (min-width: 481px) {
     .creaturesGrid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    }
-}
-
-.creatureCard .stats-table th, .creatureCard .saves-table th {
-    background-color: #f5f5f5;
-}
-
-.creatureCard .skills-list {
-    padding-left: 1.5rem;
-}
-
-.creatureList {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 2rem;
-    width: 100%;
-}
-
-.creatureContent {
-    composes: statBlockContent;
-}
-
-.creatureDivider {
-    height: var(--card-divider-height);
-    background: linear-gradient(to right, transparent, var(--card-divider-color), transparent);
-    margin: 0.5rem 0;
-}
-
-.creatureExpandIndicator {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-}
-
-.creatureExpandTriangleCollapsed,
-.creatureExpandTriangleExpanded {
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    transition: transform 0.2s ease;
-}
-
-.creatureExpandTriangleCollapsed {
-    border-top: 6px solid #580C00;
-    transform: rotate(0deg);
-}
-
-.creatureExpandTriangleExpanded {
-    border-top: 6px solid #580C00;
-    transform: rotate(180deg);
-}
-
-@media (max-width: 480px) {
-    .creatureHeader {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .creatureHeader h1 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-size: 1.8rem;
-    }
-
-    .creatureList {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) and (min-width: 481px) {
-    .creatureList {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }

@@ -1,26 +1,22 @@
 :root {
     --card-width: 100%;
-    --card-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+    --card-filter: none;
     --card-font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
     --card-background: #F0E4C9;
     --card-color: #2B2117;
-    --card-padding: 0.6rem;
+    --card-padding: 1rem;
     --card-border: 1px solid #C9B07C;
     --card-shadow: 0 0 3px #867453;
     --card-radius: 5px;
-    --card-transition: all 0.3s ease;
+    --card-transition: all 0.2s ease;
     --card-hover-transform: translateY(-2px);
-    --card-hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    --card-content-max-height-collapsed: 200px;
+    --card-hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --card-content-max-height-collapsed: 100px;
     --card-content-max-height-expanded: 2000px;
-    --card-name-color: #580C00;
-    --card-name-size: 1.6rem;
+    --card-name-color: #581C00;
+    --card-name-size: 1.2rem;
     --card-type-color: #3A3226;
     --card-type-size: 0.9rem;
-    --card-divider-height: 1px;
-    --card-divider-color: #867453;
-    --card-expand-indicator-size: 8px;
-    --card-expand-indicator-color: #580C00;
 }
 
 .card {
@@ -36,6 +32,8 @@
     position: relative;
     cursor: pointer;
     transition: var(--card-transition);
+    max-width: 380px;
+    margin: 0 auto;
 }
 
 .card:hover {
@@ -59,18 +57,12 @@
     opacity: 1;
 }
 
-.cardCollapsed .statBlockContent {
+.cardCollapsed .content {
     display: none;
 }
 
-.cardExpanded .statBlockContent {
+.cardExpanded .content {
     display: block;
-}
-
-.statBlockHeader {
-    text-align: center;
-    margin-bottom: 0.3rem;
-    padding: 0.5rem;
 }
 
 .cardName {
@@ -81,6 +73,8 @@
     letter-spacing: 1px;
     margin: 0;
     text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+    display: block;
+    width: 100%;
 }
 
 .cardType {
@@ -88,38 +82,165 @@
     font-size: var(--card-type-size);
     margin: 0.2rem 0 0;
     color: var(--card-type-color);
+    white-space: pre-line;
+}
+
+.statBlock {
+    font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
+    background-color: #F0E4C9;
+    color: #2B2117;
+    padding: 0.6rem;
+    border: 1px solid #C9B07C;
+    box-shadow: 0 0 3px #867453;
+    border-radius: 5px;
+    position: relative;
+}
+
+.statBlockHeader {
+    text-align: center;
+    margin-bottom: 0.3rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
 .statBlockDivider {
-    height: var(--card-divider-height);
-    background: linear-gradient(to right, transparent, var(--card-divider-color), transparent);
+    height: 5px;
+    background: linear-gradient(to right, transparent, #6A0D00, #6A0D00, #6A0D00, transparent);
     margin: 0.5rem 0;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.statBlockBasics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+}
+
+.basicStat {
+    line-height: 1.4;
+}
+
+.statLabel {
+    font-weight: bold;
+    color: #581C00;
+}
+
+.statBlockProperties {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0.5rem 0;
+}
+
+.property {
+    line-height: 1.4;
+}
+
+.propertyName {
+    font-weight: bold;
+    font-style: italic;
+    color: #581C00;
+}
+
+.statBlockDescription {
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .expandIndicator {
     position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    width: 0;
-    height: 0;
-    pointer-events: none;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
 }
 
-.expandIndicatorTriangle {
-    display: inline-block;
+.expandTriangleCollapsed,
+.expandTriangleExpanded {
     width: 0;
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
 }
 
-.expandIndicatorTriangleCollapsed {
-    border-top: var(--card-expand-indicator-size) solid var(--card-expand-indicator-color);
+.expandTriangleCollapsed {
+    border-top: 6px solid #580C00;
     transform: rotate(0deg);
 }
 
-.expandIndicatorTriangleExpanded {
-    border-top: var(--card-expand-indicator-size) solid var(--card-expand-indicator-color);
+.expandTriangleExpanded {
+    border-top: 6px solid #580C00;
     transform: rotate(180deg);
+}
+
+.loadingContainer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.errorContainer {
+    text-align: center;
+    padding: 2rem;
+    color: #d32f2f;
+}
+
+.errorContainer button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #580C00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.errorContainer button:hover {
+    background-color: #7a1000;
+}
+
+.reloadButton {
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.reloadButton:hover {
+    transform: scale(1.1);
+}
+
+.reloadButtonSpin {
+    animation: spin 1s linear infinite;
+}
+
+.reloadButton img {
+    width: 24px;
+    height: 24px;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .cardName {
+        font-size: 1.1rem;
+    }
 } 
