@@ -1,20 +1,21 @@
 @import '../styles/Card.module.css';
 
 .spell-component {
-    margin: 2rem 0;
+    margin: 0;
     flex-wrap: wrap;
     gap: 0.5rem;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: 100%;
+    padding: 0;
+    flex: 1;
 }
 
 .spellHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
 }
 
 .spellHeader h1 {

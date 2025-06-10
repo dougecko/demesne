@@ -11,6 +11,11 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .logo-container {
@@ -33,25 +38,6 @@
 
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.app-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .app-container {
-    padding: 0.5rem;
-  }
-
-  .logo {
-    max-width: 80%;
-    padding: 0.75rem;
-  }
 }
 
 .logo.react:hover {
@@ -85,4 +71,28 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.lists-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .lists-container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    max-width: 80%;
+    padding: 0.75rem;
+  }
 }

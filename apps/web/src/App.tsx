@@ -37,8 +37,10 @@ function App() {
             </div>
 */}
 
-            <SpellList />
-            <CreatureComponent />
+            <div className="lists-container">
+                <SpellList />
+                <CreatureComponent />
+            </div>
 
 {/*
             <ExampleComponent />
