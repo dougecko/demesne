@@ -8,6 +8,7 @@ dist/
 *.d.ts
 *.d.mts
 *.js
+.serverless/
 
 # IDE files
 .idea/
