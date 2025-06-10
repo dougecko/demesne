@@ -1,0 +1,40 @@
+service: demesne-api
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    NODE_ENV: ${self:provider.stage}
+
+functions:
+  spells:
+    handler: dist/spellService.handler
+    events:
+      - http:
+          path: /api/spells
+          method: get
+          cors: true
+    localPort: 3001
+
+  creatures:
+    handler: dist/creatureService.handler
+    events:
+      - http:
+          path: /api/creatures
+          method: get
+          cors: true
+    localPort: 3001
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  serverless-offline:
+    httpPort: 3001
+    lambdaPort: 3002
+    noPrependStageInUrl: true 

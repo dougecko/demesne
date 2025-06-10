@@ -1,6 +1,6 @@
 import type {Creature, Size, Alignment} from '@demesne/types';
 import fetch from 'node-fetch';
-import logger from '../utils/logger.mts';
+import { logger } from '../utils/logger.js';
 
 const DND_API_BASE = 'https://dnd5eapi.co/api';
 const FETCH_SIZE = 3;
@@ -61,7 +61,8 @@ const transformMonster = (monster: {
     return {
         id: monster.index,
         name: monster.name,
-        description: {
+        description: monster.desc?.join('\n') || '',
+        actions: {
             specialAbilities: monster.special_abilities || [],
             actions: monster.actions || [],
             legendaryActions: monster.legendary_actions || []

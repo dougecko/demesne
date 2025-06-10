@@ -9,4 +9,4 @@ export interface ApiError extends Error {
 }
 
 export * from './creature';
-export * from './spell'; 
+export * from './spell';

@@ -11,6 +11,11 @@ export const mockCreatures: Creature[] = [
         id: '1',
         name: 'Goblin',
         description: 'Small, green-skinned creatures known for their cunning and stealth. They favor ambush tactics and rarely fight fair.',
+        actions: {
+            specialAbilities: [],
+            actions: [],
+            legendaryActions: []
+        },
         stats: {
             strength: createValue(8),
             dexterity: createValue(14),
@@ -51,6 +56,11 @@ export const mockCreatures: Creature[] = [
         id: '2',
         name: 'Owlbear',
         description: 'A terrifying combination of owl and bear, these creatures are known for their ferocity and territorial nature. Their screech can be heard for miles when they are on the hunt.',
+        actions: {
+            specialAbilities: [],
+            actions: [],
+            legendaryActions: []
+        },
         stats: {
             strength: createValue(20),
             dexterity: createValue(12),
@@ -90,6 +100,11 @@ export const mockCreatures: Creature[] = [
         id: '3',
         name: 'Young Green Dragon',
         description: 'A cunning and manipulative predator with forest-green scales and acidic breath. Known for its deceptive tactics and cruel intellect.',
+        actions: {
+            specialAbilities: [],
+            actions: [],
+            legendaryActions: []
+        },
         stats: {
             strength: createValue(19),
             dexterity: createValue(12),
