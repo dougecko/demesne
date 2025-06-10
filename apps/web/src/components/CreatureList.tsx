@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
 import type {Creature} from '@demesne/types';
-import styles from './CreatureComponent.module.css';
+import styles from './CreatureList.module.css';
 import brassReload from '../assets/brass-reload.svg';
 import { getCreatures } from '../api/client';
 
-function CreatureComponent() {
+export const CreatureList = () => {
     const [creatures, setCreatures] = useState<Creature[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -250,5 +250,3 @@ function CreatureComponent() {
         </div>
     );
 }
-
-export default CreatureComponent;
