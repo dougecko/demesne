@@ -48,7 +48,7 @@ describe('creatureService', () => {
                 mockCreatures.map((c) => [c.id, {
                     index: c.id,
                     name: c.name,
-                    desc: [c.description],
+                    desc: c.description,
                     special_abilities: c.actions.specialAbilities,
                     actions: c.actions.actions,
                     legendary_actions: c.actions.legendaryActions,
