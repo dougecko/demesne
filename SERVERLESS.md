@@ -18,7 +18,7 @@
 
 3. Deploy to AWS Lambda:
    ```bash
-   pnpm serverless deploy
+   pnpm deploy
    ```
 
 ## Development
@@ -33,6 +33,6 @@
   ```
 
 ## Notes
-- This project uses Vite for building and bundling.
-- Ensure your AWS credentials are properly configured in `~/.aws/credentials`.
+- This project uses Vite for building the web app.
+- Ensure AWS credentials are properly configured before deployment.
 - For more details, refer to the [Serverless Framework documentation](https://www.serverless.com/framework/docs/). 

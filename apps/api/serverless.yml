@@ -12,22 +12,20 @@ provider:
 
 functions:
   spells:
-    handler: dist/spellService.handler
+    handler: dist/index.spellHandler
     events:
       - http:
           path: /api/spells
           method: get
           cors: true
-    localPort: 3001
 
   creatures:
-    handler: dist/creatureService.handler
+    handler: dist/index.creatureHandler
     events:
       - http:
           path: /api/creatures
           method: get
           cors: true
-    localPort: 3001
 
 plugins:
   - serverless-offline

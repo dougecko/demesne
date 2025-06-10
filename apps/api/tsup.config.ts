@@ -1,7 +1,11 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: [
+    'src/index.ts',
+    'src/services/spellService.mts',
+    'src/services/creatureService.mts'
+  ],
   format: ['esm'],
   dts: true,
   clean: true,
