@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getCreatures } from '../services/creatureService.mjs';
 import { mockCreatures } from './mockData.js';
 import fetch from 'node-fetch';
+import type { MonsterAPIResponse } from '../types/dndApi';
+import { transformMonster } from '../services/creatureService.mts';
 
 // Mock node-fetch
 vi.mock('node-fetch', () => ({
@@ -181,6 +183,221 @@ describe('creatureService', () => {
             const result = await getCreatures();
             expect(result).toHaveLength(1);
             expect(result[0].id).toBe('valid-monster');
+        });
+    });
+
+    describe('transformMonster', () => {
+        it('transforms a basic monster correctly', () => {
+            const mockMonster: MonsterAPIResponse = {
+                index: 'test-monster',
+                name: 'Test Monster',
+                size: 'Medium',
+                type: 'humanoid',
+                alignment: 'neutral',
+                armor_class: [{ type: 'natural', value: 15 }],
+                hit_points: 50,
+                hit_dice: '5d8',
+                speed: { walk: '30' },
+                strength: 14,
+                dexterity: 12,
+                constitution: 13,
+                intelligence: 10,
+                wisdom: 11,
+                charisma: 9,
+                proficiencies: [
+                    { value: 2, proficiency: { index: 'skill-athletics', name: 'Skill: Athletics', url: '' } }
+                ],
+                damage_vulnerabilities: [],
+                damage_resistances: [],
+                damage_immunities: [],
+                condition_immunities: [],
+                senses: 'darkvision 60 ft., passive Perception 12',
+                languages: [{ name: 'Common' }],
+                challenge_rating: 2,
+                xp: 450,
+                special_abilities: [
+                    { name: 'Test Ability', desc: 'Test description' }
+                ],
+                actions: [
+                    { name: 'Test Action', desc: 'Test action description' }
+                ],
+                legendary_actions: [
+                    { name: 'Test Legendary', desc: 'Test legendary description' }
+                ],
+                url: ''
+            };
+
+            const result = transformMonster(mockMonster);
+
+            expect(result).toEqual({
+                id: 'test-monster',
+                name: 'Test Monster',
+                description: '',
+                actions: {
+                    specialAbilities: [{ name: 'Test Ability', desc: 'Test description' }],
+                    actions: [{ name: 'Test Action', desc: 'Test action description' }],
+                    legendaryActions: [{ name: 'Test Legendary', desc: 'Test legendary description' }]
+                },
+                stats: {
+                    strength: { value: 14, modifier: 2 },
+                    dexterity: { value: 12, modifier: 1 },
+                    constitution: { value: 13, modifier: 1 },
+                    intelligence: { value: 10, modifier: 0 },
+                    wisdom: { value: 11, modifier: 0 },
+                    charisma: { value: 9, modifier: -1 }
+                },
+                armorClass: 15,
+                hitPoints: 50,
+                speed: 30,
+                skills: ['Athletics +2'],
+                senses: {
+                    darkvision: 60,
+                    blindsight: 0,
+                    tremorsense: 0,
+                    truesight: 0,
+                    passivePerception: 12
+                },
+                languages: ['Common'],
+                challengeRating: {
+                    rating: 2,
+                    xp: 450
+                },
+                creatureType: {
+                    size: 'Medium',
+                    type: 'humanoid',
+                    subtype: undefined,
+                    alignment: 'neutral'
+                },
+                savingThrows: {
+                    strength: 0,
+                    dexterity: 0,
+                    constitution: 0,
+                    intelligence: 0,
+                    wisdom: 0,
+                    charisma: 0
+                }
+            });
+        });
+
+        it('handles missing optional fields', () => {
+            const mockMonster: MonsterAPIResponse = {
+                index: 'minimal-monster',
+                name: 'Minimal Monster',
+                size: 'Small',
+                type: 'beast',
+                alignment: 'unaligned',
+                armor_class: [{ type: 'natural', value: 12 }],
+                hit_points: 10,
+                hit_dice: '2d6',
+                speed: { walk: '20' },
+                strength: 8,
+                dexterity: 14,
+                constitution: 10,
+                intelligence: 3,
+                wisdom: 12,
+                charisma: 6,
+                proficiencies: [],
+                damage_vulnerabilities: [],
+                damage_resistances: [],
+                damage_immunities: [],
+                condition_immunities: [],
+                senses: '',
+                languages: [],
+                challenge_rating: 0.25,
+                xp: 50,
+                url: ''
+            };
+
+            const result = transformMonster(mockMonster);
+
+            expect(result).toEqual({
+                id: 'minimal-monster',
+                name: 'Minimal Monster',
+                description: '',
+                actions: {
+                    specialAbilities: [],
+                    actions: [],
+                    legendaryActions: []
+                },
+                stats: {
+                    strength: { value: 8, modifier: -1 },
+                    dexterity: { value: 14, modifier: 2 },
+                    constitution: { value: 10, modifier: 0 },
+                    intelligence: { value: 3, modifier: -4 },
+                    wisdom: { value: 12, modifier: 1 },
+                    charisma: { value: 6, modifier: -2 }
+                },
+                armorClass: 12,
+                hitPoints: 10,
+                speed: 20,
+                skills: [],
+                senses: {
+                    darkvision: 0,
+                    blindsight: 0,
+                    tremorsense: 0,
+                    truesight: 0,
+                    passivePerception: 0
+                },
+                languages: [],
+                challengeRating: {
+                    rating: 0.25,
+                    xp: 50
+                },
+                creatureType: {
+                    size: 'Small',
+                    type: 'beast',
+                    subtype: undefined,
+                    alignment: 'unaligned'
+                },
+                savingThrows: {
+                    strength: 0,
+                    dexterity: 0,
+                    constitution: 0,
+                    intelligence: 0,
+                    wisdom: 0,
+                    charisma: 0
+                }
+            });
+        });
+
+        it('parses senses correctly', () => {
+            const mockMonster: MonsterAPIResponse = {
+                index: 'senses-monster',
+                name: 'Senses Monster',
+                size: 'Medium',
+                type: 'aberration',
+                alignment: 'chaotic evil',
+                armor_class: [{ type: 'natural', value: 15 }],
+                hit_points: 45,
+                hit_dice: '6d8',
+                speed: { walk: '30' },
+                strength: 12,
+                dexterity: 14,
+                constitution: 12,
+                intelligence: 16,
+                wisdom: 14,
+                charisma: 10,
+                proficiencies: [],
+                damage_vulnerabilities: [],
+                damage_resistances: [],
+                damage_immunities: [],
+                condition_immunities: [],
+                senses: 'darkvision 120 ft., blindsight 30 ft., tremorsense 60 ft., truesight 90 ft., passive Perception 16',
+                languages: [{ name: 'Deep Speech' }],
+                challenge_rating: 3,
+                xp: 700,
+                url: ''
+            };
+
+            const result = transformMonster(mockMonster);
+
+            expect(result.senses).toEqual({
+                darkvision: 120,
+                blindsight: 30,
+                tremorsense: 60,
+                truesight: 90,
+                passivePerception: 16
+            });
         });
     });
 }); 

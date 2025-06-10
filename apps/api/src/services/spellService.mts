@@ -1,56 +1,35 @@
 import type { Spell } from '@demesne/types';
+import type { SpellAPIResponse, APIListResponse } from '../types/dndApi';
 import fetch from 'node-fetch';
 import { logger } from '../utils/logger.js';
 
 const DND_API_BASE = 'https://dnd5eapi.co/api';
 const FETCH_SIZE = 3;
 
-// Transform D&D API spell data to our Spell type
-const transformSpell = (spell: {
-  index: string;
-  name: string;
-  desc?: string[];
-  higher_level?: string[];
-  range?: string;
-  components?: string[];
-  material?: string;
-  ritual?: boolean;
-  duration?: string;
-  concentration?: boolean;
-  casting_time?: string;
-  level?: number;
-  attack_type?: string;
-  damage?: {
-    damage_type?: { name: string };
-    damage_at_slot_level?: Record<string, string>;
-  };
-  school?: { name: string };
-  classes?: Array<{ name: string }>;
-  subclasses?: Array<{ name: string }>;
-}): Spell => {
+export function transformSpell(spell: SpellAPIResponse): Spell {
   return {
     id: spell.index,
     name: spell.name,
-    description: spell.desc?.join('\n') || 'No description available.',
-    higherLevel: spell.higher_level?.join('\n'),
-    range: spell.range || 'Self',
-    components: spell.components || [],
+    description: spell.desc.join('\n\n'),
+    higherLevel: spell.higher_level?.[0],
+    range: spell.range,
+    components: spell.components,
     material: spell.material,
-    ritual: spell.ritual || false,
-    duration: spell.duration || 'Instantaneous',
-    concentration: spell.concentration || false,
-    castingTime: spell.casting_time || '1 action',
-    level: spell.level || 0,
+    ritual: spell.ritual,
+    duration: spell.duration,
+    concentration: spell.concentration,
+    castingTime: spell.casting_time,
+    level: spell.level,
     attackType: spell.attack_type,
     damage: spell.damage ? {
-      type: spell.damage.damage_type?.name,
+      type: spell.damage.damage_type?.name ?? 'Unknown',
       atSlotLevel: spell.damage.damage_at_slot_level
     } : undefined,
-    school: spell.school?.name || 'Unknown',
-    classes: spell.classes?.map(c => c.name) || [],
-    subclasses: spell.subclasses?.map(s => s.name) || []
+    school: spell.school.name,
+    classes: spell.classes.map(c => c.name),
+    subclasses: spell.subclasses.map(s => s.name)
   };
-};
+}
 
 export const getSpells = async (): Promise<Spell[]> => {
   try {
@@ -58,28 +37,33 @@ export const getSpells = async (): Promise<Spell[]> => {
     // First, get the list of all spells
     const response = await fetch(`${DND_API_BASE}/spells`);
     if (!response.ok) {
-      throw new Error(`API responded with status: ${response.status} ${response.statusText}`);
+      const errorMessage = `API responded with status: ${response.status} ${response.statusText}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
     
-    const data = await response.json() as { results: Array<{ index: string }> };
+    const data = await response.json() as APIListResponse;
     if (!data.results || !Array.isArray(data.results)) {
       const errorMessage = 'Invalid API response format: missing or invalid results array';
       logger.error(errorMessage);
       throw new Error(errorMessage);
     }
     
-    logger.info(`Found ${data.results.length} spells, fetching details for first ${FETCH_SIZE}...`);
-    // Then fetch details for each spell (limit to first FETCH_SIZE for performance)
+    // Randomly select FETCH_SIZE spells
     const shuffledResults = data.results.sort(() => 0.5 - Math.random());
     const selectedSpells = shuffledResults.slice(0, FETCH_SIZE);
-    const spellPromises = selectedSpells.map(async (spell: { index: string }) => {
+    
+    logger.info(`Found ${data.results.length} spells, fetching details for ${FETCH_SIZE} random ones...`);
+    // Then fetch details for each selected spell
+    const spellPromises = selectedSpells.map(async (spell) => {
       try {
         const spellResponse = await fetch(`${DND_API_BASE}/spells/${spell.index}`);
         if (!spellResponse.ok) {
           logger.warn(`Failed to fetch details for spell ${spell.index}: ${spellResponse.status} ${spellResponse.statusText}`);
           return null;
         }
-        const spellData = await spellResponse.json() as Parameters<typeof transformSpell>[0];
+        const spellData = await spellResponse.json() as SpellAPIResponse;
+        logger.info(`Spell ${spell.index} description:`, spellData.desc);
         return transformSpell(spellData);
       } catch (error) {
         logger.error(`Error fetching details for spell ${spell.index}:`, error);
@@ -87,7 +71,7 @@ export const getSpells = async (): Promise<Spell[]> => {
       }
     });
 
-    const spells = (await Promise.all(spellPromises)).filter((s: Spell | null): s is Spell => s !== null);
+    const spells = (await Promise.all(spellPromises)).filter((s): s is Spell => s !== null);
     logger.info(`Successfully fetched ${spells.length} spells`);
     return spells;
   } catch (error) {
