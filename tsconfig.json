@@ -6,11 +6,12 @@
         "packages/ui/src"
       ]
     },
-    "jsx": "react",
+    "jsx": "react-jsx",
     "target": "ESNext",
     "module": "ESNext",
     "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   }
 }

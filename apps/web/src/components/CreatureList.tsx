@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
-import type {Creature} from '@demesne/types';
+import { type FC, useEffect, useState } from 'react';
+import type { Creature } from '@demesne/types';
 import styles from './CreatureList.module.css';
 import brassReload from '../assets/brass-reload.svg';
 import { getCreatures } from '../api/client';
 
-export const CreatureList = () => {
+export const CreatureList: FC = () => {
     const [creatures, setCreatures] = useState<Creature[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -36,7 +36,7 @@ export const CreatureList = () => {
     };
 
     const toggleCard = (id: string) => {
-        setExpandedCards(prev => {
+        setExpandedCards((prev: Set<string>) => {
             const next = new Set(prev);
             if (next.has(id)) {
                 next.delete(id);
@@ -226,7 +226,7 @@ export const CreatureList = () => {
                 </div>
             ) : (
                 <div className={styles.creatureList}>
-                    {creatures.map(creature => (
+                    {creatures.map((creature: Creature) => (
                         <div
                             key={creature.id}
                             className={`${styles.creatureCard} ${expandedCards.has(creature.id) ? styles.cardExpanded : styles.cardCollapsed}`}
@@ -234,8 +234,8 @@ export const CreatureList = () => {
                             <div className={styles.creatureCardContent}>
                                 <div className={styles.creatureHeader}>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
+                                    <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
                                 </div>
-                                <div className={styles.creatureType}>{formatCreatureType(creature)}</div>
                                 <div className={styles.creatureContent}>
                                     {renderCreatureDetails(creature)}
                                 </div>

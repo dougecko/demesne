@@ -14,14 +14,13 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
-    "emitDeclarationOnly": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
     "jsx": "react-jsx",
-    "composite": true,
-    "declaration": true,
+    "allowSyntheticDefaultImports": true,
 
     /* Linting */
     "strict": true,
@@ -37,7 +36,7 @@
       "@demesne/types": ["../../packages/types/src"]
     },
 
-    "types": ["vite/client"]
+    "types": ["vite/client", "react", "react-dom"]
   },
   "references": [{ "path": "./tsconfig.node.json" }]
 }
