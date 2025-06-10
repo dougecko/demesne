@@ -114,7 +114,9 @@ export const SpellList = () => {
               <div className={styles.spellCardContent}>
                 <div className={styles.spellHeader}>
                   <h3 className={styles.spellName}>{spell.name}</h3>
-                  <p className={styles.spellLevel}>{spell.level === 0 ? 'Cantrip' : `Level ${spell.level}`}</p>
+                </div>
+                <div>
+                  <p className={styles.spellLevel}>{spell.level === 0 ? 'Cantrip' : `Level ${spell.level}`} {spell.school}</p>
                 </div>
                 <div className={styles.spellContent}>
                   {renderSpellDetails(spell)}

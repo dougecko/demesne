@@ -234,6 +234,8 @@ export const CreatureList: FC = () => {
                             <div className={styles.creatureCardContent}>
                                 <div className={styles.creatureHeader}>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
+                                </div>
+                                <div>
                                     <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
                                 </div>
                                 <div className={styles.creatureContent}>
