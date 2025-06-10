@@ -55,9 +55,7 @@ export interface MonsterAPIResponse {
     tremorsense?: string;
     truesight?: string;
   };
-  languages: Array<{
-    name: string;
-  }>;
+  languages: string;
   challenge_rating: number;
   xp: number;
   desc?: string;

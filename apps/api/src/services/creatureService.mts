@@ -47,7 +47,8 @@ const parseSense = (senses: { [key: string]: any } | undefined, senseName: strin
 export const transformMonster = (monster: MonsterAPIResponse): Creature => {
   logger.debug('transformMonster input:', { 
     name: monster.name,
-    senses: monster.senses
+    senses: monster.senses,
+    languages: monster.languages
   });
 
   const description = monster.desc || '';
@@ -85,7 +86,7 @@ export const transformMonster = (monster: MonsterAPIResponse): Creature => {
       truesight: parseSense(monster.senses, 'truesight') ?? 0,
       passivePerception: parseSense(monster.senses, 'passive Perception') ?? 0
     },
-    languages: monster.languages.map((l) => l.name),
+    languages: monster.languages.split(',').map(lang => lang.trim()),
     challengeRating: {
       rating: monster.challenge_rating,
       xp: monster.xp
