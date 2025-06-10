@@ -87,7 +87,7 @@ export const SpellList = () => {
   return (
     <div className={styles['spell-component']}>
       <div className={styles.spellHeader}>
-        <h1>Spells</h1>
+        <h1 className={styles.spellHeaderTitle}>Spells</h1>
         <button
           onClick={handleReload}
           disabled={loading}

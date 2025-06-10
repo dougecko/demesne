@@ -239,8 +239,37 @@
     }
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+
+.headerTitle {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4b2404;
+}
+
 @media (max-width: 480px) {
     .cardName {
         font-size: 1.1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .headerTitle {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
     }
 } 

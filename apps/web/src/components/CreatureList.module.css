@@ -11,61 +11,11 @@
 }
 
 .creatureHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    margin-bottom: 1rem;
+    composes: header from '../styles/Card.module.css';
 }
 
-.creatureHeader h1 {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #4b2404;
-}
-
-@media (max-width: 480px) {
-    .creatureHeader {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .creatureHeader h1 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-size: 1.8rem;
-    }
-}
-
-.creatures-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.reload-button {
-    padding: 0.5rem 1rem;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.reload-button:disabled {
-    background-color: #cccccc;
-}
-
-.creaturesGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 2rem;
-    width: 100%;
+.creatureHeaderTitle {
+    composes: headerTitle from '../styles/Card.module.css';
 }
 
 .creatureCard {
@@ -161,17 +111,6 @@
 }
 
 @media (max-width: 480px) {
-    .creatureHeader {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .creatureHeader h1 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-size: 1.8rem;
-    }
-
     .abilityScores {
         gap: 0.5rem;
     }
@@ -199,14 +138,31 @@
     padding-left: 1.5rem;
 }
 
-.creatureContent {
-    composes: content from '../styles/Card.module.css';
+.creatures-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
-.creatureDivider {
-    height: var(--card-divider-height);
-    background: linear-gradient(to right, transparent, var(--card-divider-color), transparent);
-    margin: 0.5rem 0;
+.reload-button {
+    padding: 0.5rem 1rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reload-button:disabled {
+    background-color: #cccccc;
+}
+
+.creaturesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    width: 100%;
 }
 
 .reloadButton:hover {
@@ -250,5 +206,23 @@
     .creaturesGrid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
+}
+
+.creatureCard .stats-table th, .creatureCard .saves-table th {
+    background-color: #f5f5f5;
+}
+
+.creatureCard .skills-list {
+    padding-left: 1.5rem;
+}
+
+.creatureContent {
+    composes: content from '../styles/Card.module.css';
+}
+
+.creatureDivider {
+    height: var(--card-divider-height);
+    background: linear-gradient(to right, transparent, var(--card-divider-color), transparent);
+    margin: 0.5rem 0;
 }
 

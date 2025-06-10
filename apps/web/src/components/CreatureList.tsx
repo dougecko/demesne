@@ -206,7 +206,7 @@ export const CreatureList: FC = () => {
     return (
         <div className={styles['creature-component']}>
             <div className={styles.creatureHeader}>
-                <h1>Creatures</h1>
+                <h1 className={styles.creatureHeaderTitle}>Creatures</h1>
                 <button
                     onClick={handleReload}
                     disabled={loading}
