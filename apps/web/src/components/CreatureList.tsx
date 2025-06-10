@@ -238,7 +238,7 @@ export const CreatureList: FC = () => {
                                 <div>
                                     <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
                                 </div>
-                                <div className={styles.creatureContent}>
+                                <div className={styles.content}>
                                     {renderCreatureDetails(creature)}
                                 </div>
                                 <div className={styles.creatureExpandIndicator}>
