@@ -58,9 +58,7 @@ export const getSpells = async (): Promise<Spell[]> => {
     // First, get the list of all spells
     const response = await fetch(`${DND_API_BASE}/spells`);
     if (!response.ok) {
-      const errorMessage = `API responded with status: ${response.status} ${response.statusText}`;
-      logger.error(errorMessage);
-      throw new Error(errorMessage);
+      throw new Error(`API responded with status: ${response.status} ${response.statusText}`);
     }
     
     const data = await response.json() as { results: Array<{ index: string }> };
