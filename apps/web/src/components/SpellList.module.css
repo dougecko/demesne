@@ -10,6 +10,36 @@
     padding: 20px;
 }
 
+.spellHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.spellHeader h1 {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4b2404;
+}
+
+@media (max-width: 480px) {
+    .spellHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .spellHeader h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
+    }
+}
+
 .spellCard {
     width: var(--card-width);
     filter: var(--card-filter);
@@ -49,12 +79,6 @@
 
 .cardExpanded .spellContent {
     display: block;
-}
-
-.spellHeader {
-    text-align: center;
-    margin-bottom: 0.3rem;
-    padding: 0.5rem;
 }
 
 .spellName {
@@ -173,14 +197,6 @@
     transform: rotate(180deg);
 }
 
-.cardCollapsed .spellContent {
-    display: none;
-}
-
-.cardExpanded .spellContent {
-    display: flex;
-}
-
 .loadingContainer {
     text-align: center;
     padding: 2rem;
@@ -209,18 +225,15 @@
 }
 
 .reloadButton {
+    padding: 0.5rem;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
-    transition: transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: transform 0.2s ease;
 }
 
 .reloadButton:hover {
-    transform: rotate(180deg);
+    transform: scale(1.1);
 }
 
 .reloadButtonSpin {
@@ -248,39 +261,14 @@
     width: 100%;
 }
 
-.spellHeader h1 {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #4b2404;
-}
-
 @media (max-width: 480px) {
-    .spellHeader {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .spellHeader h1 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-size: 1.8rem;
-    }
-
     .spellList {
         grid-template-columns: 1fr;
-    }
-
-    .spellName {
-        font-size: 1.4rem;
     }
 }
 
 @media (max-width: 768px) and (min-width: 481px) {
     .spellList {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
     }
 } 
