@@ -11,20 +11,12 @@ const createValue = (value: number) => ({
     modifier: Math.floor((value - 10) / 2)
 });
 
-// Helper to extract a sense value from the senses array
-const parseSense = (senses: string[] | undefined, senseName: string, fallback: number | undefined = undefined): number | undefined => {
-  const match = senses?.find((s) => s.includes(senseName))?.match(/\d+/)?.[0] ?? '';
-  const value = parseInt(match, 10);
-  return isNaN(value) ? fallback : value;
-};
-
-const parsePassivePerception = (senses: string[]): number => {
-    const passivePerception = senses.find(s => s.includes('passive Perception'));
-    if (passivePerception) {
-        const match = passivePerception.match(/\d+/);
-        return match ? parseInt(match[0]) : 10;
-    }
-    return 10;
+// Helper to extract a sense value from the senses string
+const parseSense = (senses: string | undefined, senseName: string, fallback: number | undefined = undefined): number | undefined => {
+  if (!senses) return fallback;
+  const match = senses.match(new RegExp(`${senseName}\\s*(\\d+)`))?.[1];
+  const value = match ? parseInt(match, 10) : undefined;
+  return isNaN(value as number) ? fallback : value;
 };
 
 // Transform D&D API monster data to our Creature type
