@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useState } from 'react';
 // import { useState } from 'react'
 // import viteLogo from '/vite.svg'
 // import reactLogo from './assets/react.svg'
@@ -7,9 +7,15 @@ import demesneLogo from './assets/demesne-logo.png'
 import './App.css'
 import { SpellList } from "./components/SpellList";
 import { CreatureList } from "./components/CreatureList";
+import { Encounter } from './components/Encounter';
+import type { Creature } from '@demesne/types';
 
-const App: FC = () => {
-    // const [count, setCount] = useState(0)
+const App = () => {
+    const [selectedCreatures, setSelectedCreatures] = useState<Creature[]>([]);
+
+    const handleRemoveCreature = (id: string) => {
+        setSelectedCreatures(prev => prev.filter(c => c.id !== id));
+    };
 
     return (
         <div className="app">
@@ -18,8 +24,18 @@ const App: FC = () => {
             </header>
             <main>
                 <div className="lists-container">
-                    <SpellList />
-                    <CreatureList />
+                    <div className="main-content">
+                        {/* <SpellList /> */}
+                        <CreatureList 
+                            selectedCreatures={selectedCreatures}
+                            onCreatureSelect={setSelectedCreatures}
+                            onRemoveCreature={handleRemoveCreature}
+                        />
+                    </div>
+                    <Encounter 
+                        selectedCreatures={selectedCreatures}
+                        onRemoveCreature={handleRemoveCreature}
+                    />
                 </div>
             </main>
         </div>

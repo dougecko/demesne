@@ -1,0 +1,57 @@
+.selectedCreatures {
+    background-color: #F0E4C9;
+    border: 1px solid #C9B07C;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.selectedTitle {
+    font-family: var(--card-heading-font);
+    font-size: 1.5rem;
+    color: #581C00;
+    margin: 0 0 1rem 0;
+}
+
+.emptyMessage {
+    font-family: var(--card-font-family);
+    color: #2B2117;
+    text-align: center;
+}
+
+.creatureList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.creatureItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #C9B07C;
+}
+
+.creatureItem:last-child {
+    border-bottom: none;
+}
+
+.creatureName {
+    font-family: var(--card-font-family);
+    color: #2B2117;
+}
+
+.removeButton {
+    background: none;
+    border: none;
+    color: #581C00;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+}
+
+.removeButton:hover {
+    color: #7a1000;
+} 

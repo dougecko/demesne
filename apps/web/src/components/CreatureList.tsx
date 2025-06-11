@@ -1,22 +1,24 @@
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Creature } from '@demesne/types';
+import { getCreatures } from '../api/client';
 import styles from './CreatureList.module.css';
 import brassReload from '../assets/brass-reload.svg';
-import { getCreatures } from '../api/client';
 
-export const CreatureList: FC = () => {
+interface CreatureListProps {
+    selectedCreatures: Creature[];
+    onCreatureSelect: (creatures: Creature[]) => void;
+    onRemoveCreature: (id: string) => void;
+}
+
+export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCreature }: CreatureListProps) => {
     const [creatures, setCreatures] = useState<Creature[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
-    // Get all stat keys for mapping
-    const statKeys = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'] as const;
-
     const fetchCreatures = async () => {
         setLoading(true);
         setError(null);
-
         try {
             const data = await getCreatures();
             setCreatures(data);
@@ -36,7 +38,7 @@ export const CreatureList: FC = () => {
     };
 
     const toggleCard = (id: string) => {
-        setExpandedCards((prev: Set<string>) => {
+        setExpandedCards(prev => {
             const next = new Set(prev);
             if (next.has(id)) {
                 next.delete(id);
@@ -47,65 +49,21 @@ export const CreatureList: FC = () => {
         });
     };
 
-    const allFieldsEmpty = (obj: Object): boolean => {
-        return Object.values(obj).every(
-            val => val === "" || val === 0 || val === null || val === undefined
-        );
-    }
-
-    // Helper function to render senses
-    const renderSenses = (senses: Creature['senses']) => {
-        if (!senses) return 'unknown';
-
-        const sensesArray = [];
-
-        if (senses.darkvision) {
-            sensesArray.push(`darkvision ${senses.darkvision} ft.`);
+    const toggleCreatureSelection = (creature: Creature) => {
+        const isSelected = selectedCreatures.some(c => c.id === creature.id);
+        if (isSelected) {
+            onCreatureSelect(selectedCreatures.filter(c => c.id !== creature.id));
+        } else {
+            onCreatureSelect([...selectedCreatures, creature]);
         }
+    };
 
-        if (senses.blindsight) {
-            sensesArray.push(`blindsight ${senses.blindsight} ft.`);
-        }
-
-        if (senses.tremorsense) {
-            sensesArray.push(`tremorsense ${senses.tremorsense} ft.`);
-        }
-
-        if (senses.truesight) {
-            sensesArray.push(`truesight ${senses.truesight} ft.`);
-        }
-
-        sensesArray.push(`passive Perception ${senses.passivePerception}`);
-
-        return sensesArray.join(', ');
-    }
-
-    // Helper function to format creature type
     const formatCreatureType = (creature: Creature) => {
-        if (!creature.creatureType) {
-            return 'unknown';
-        }
+        const { size, type, alignment } = creature.creatureType;
+        return `${size} ${type}${alignment ? `, ${alignment}` : ''}`;
+    };
 
-        const { size, type, subtype, alignment } = creature.creatureType;
-        return `${size} ${type}${subtype ? ` (${subtype})` : ''}, ${alignment}`;
-    }
-
-    // Function to render stat block in D&D 5e style
     const renderCreatureDetails = (creature: Creature) => {
-        // Format saving throws if they exist
-        const hasSavingThrows = !allFieldsEmpty(creature.savingThrows);
-        const savingThrowsText = hasSavingThrows
-            ? statKeys
-                .filter(key => creature.savingThrows[key])
-                .map(key => `${key.charAt(0).toUpperCase() + key.slice(1)} ${creature.savingThrows[key]}`)
-                .join(', ')
-            : 'none';
-
-        // Format skills list
-        const skillsText = creature.skills.length > 0
-            ? creature.skills.join(', ')
-            : 'none';
-
         return (
             <div className={styles.statBlock}>
                 <div className={styles.statBlockBasics}>
@@ -122,88 +80,55 @@ export const CreatureList: FC = () => {
 
                 <div className={styles.statBlockDivider}></div>
 
-                <div className={styles.abilityScores}>
-                    {statKeys.map(key => (
-                        <div key={key} className={styles.abilityScore}>
-                            <div className={styles.abilityName}>{key.charAt(0).toUpperCase() + key.slice(1,3)}</div>
-                            <div className={styles.abilityMod}>{creature.stats[key].modifier >= 0 ? `+${creature.stats[key].modifier}` : creature.stats[key].modifier}</div>
-                            <div className={styles.abilityValue}>{creature.stats[key].value}</div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className={styles.statBlockDivider}></div>
-
                 <div className={styles.statBlockProperties}>
-                    {hasSavingThrows && (
-                        <div className={styles.property}>
-                            <span className={styles.propertyName}>Saving Throws</span> {savingThrowsText}
-                        </div>
-                    )}
-
                     <div className={styles.property}>
-                        <span className={styles.propertyName}>Skills</span> {skillsText}
+                        <span className={styles.propertyName}>STR</span> {creature.stats.strength.value}
                     </div>
-
-                    {creature.senses && (
-                        <div className={styles.property}>
-                            <span className={styles.propertyName}>Senses</span> {renderSenses(creature.senses)}
-                        </div>
-                    )}
-
-                    {creature.languages && creature.languages.length > 0 && (
-                        <div className={styles.property}>
-                            <span className={styles.propertyName}>Languages</span> {creature.languages.join(', ') || 'n/a'}
-                        </div>
-                    )}
-
                     <div className={styles.property}>
-                        <span className={styles.propertyName}>Challenge</span> {creature.challengeRating?.rating || 1} ({creature.challengeRating?.xp || 200} XP)
+                        <span className={styles.propertyName}>DEX</span> {creature.stats.dexterity.value}
+                    </div>
+                    <div className={styles.property}>
+                        <span className={styles.propertyName}>CON</span> {creature.stats.constitution.value}
+                    </div>
+                    <div className={styles.property}>
+                        <span className={styles.propertyName}>INT</span> {creature.stats.intelligence.value}
+                    </div>
+                    <div className={styles.property}>
+                        <span className={styles.propertyName}>WIS</span> {creature.stats.wisdom.value}
+                    </div>
+                    <div className={styles.property}>
+                        <span className={styles.propertyName}>CHA</span> {creature.stats.charisma.value}
                     </div>
                 </div>
+
+                {creature.senses && (
+                    <>
+                        <div className={styles.statBlockDivider}></div>
+                        <div className={styles.property}>
+                            <span className={styles.propertyName}>Senses</span> {Object.entries(creature.senses)
+                                .filter(([key]) => key !== 'passivePerception')
+                                .map(([key, value]) => `${key} ${value} ft.`)
+                                .join(', ')}
+                        </div>
+                    </>
+                )}
+
+                {creature.languages && creature.languages.length > 0 && (
+                    <>
+                        <div className={styles.statBlockDivider}></div>
+                        <div className={styles.property}>
+                            <span className={styles.propertyName}>Languages</span> {creature.languages.join(', ')}
+                        </div>
+                    </>
+                )}
 
                 <div className={styles.statBlockDivider}></div>
 
                 <div className={styles.statBlockDescription}>
-                    {creature.actions.specialAbilities.length > 0 && (
-                        <>
-                            <div className={styles.property}>
-                                <span className={styles.propertyName}>Special Abilities</span>
-                            </div>
-                            {creature.actions.specialAbilities.map((ability, index) => (
-                                renderActionItem(index, ability)
-                            ))}
-                        </>
-                    )}
-
-                    {creature.actions.actions.length > 0 && (
-                        <>
-                            <div className={styles.property}>
-                                <span className={styles.propertyName}>Actions</span>
-                            </div>
-                            {creature.actions.actions.map((action, index) => (
-                                renderActionItem(index, action)
-                            ))}
-                        </>
-                    )}
-
-                    {creature.actions.legendaryActions.length > 0 && (
-                        <>
-                            <div className={styles.property}>
-                                <span className={styles.propertyName}>Legendary Actions</span>
-                            </div>
-                            {creature.actions.legendaryActions.map((action, index) => (
-                                renderActionItem(index, action)
-                            ))}
-                        </>
-                    )}
+                    <p>{creature.description}</p>
                 </div>
             </div>
         );
-
-        function renderActionItem(index: number, item: { name: string; desc: string; }) {
-            return <p className={styles.actionItem} key={index}><span className={styles.actionName}>{item.name}</span>: {item.desc}</p>;
-        }
     };
 
     return (
@@ -219,7 +144,6 @@ export const CreatureList: FC = () => {
                     <img src={brassReload} alt="Reload" />
                 </button>
             </div>
-
             {loading ? (
                 <div className={styles.loadingContainer}>Loading...</div>
             ) : error ? (
@@ -229,7 +153,7 @@ export const CreatureList: FC = () => {
                 </div>
             ) : (
                 <div className={styles.creatureList}>
-                    {creatures.map((creature: Creature) => (
+                    {creatures.map(creature => (
                         <div
                             key={creature.id}
                             className={`${styles.creatureCard} ${expandedCards.has(creature.id) ? styles.cardExpanded : styles.cardCollapsed}`}
@@ -237,6 +161,16 @@ export const CreatureList: FC = () => {
                             <div className={styles.creatureCardContent}>
                                 <div className={styles.creatureHeader}>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
+                                    <button
+                                        className={`${styles.selectButton} ${selectedCreatures.some(c => c.id === creature.id) ? styles.selected : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            toggleCreatureSelection(creature);
+                                        }}
+                                        title={selectedCreatures.some(c => c.id === creature.id) ? "Remove from selection" : "Add to selection"}
+                                    >
+                                        {selectedCreatures.some(c => c.id === creature.id) ? '×' : '+'}
+                                    </button>
                                 </div>
                                 <div>
                                     <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
@@ -254,4 +188,4 @@ export const CreatureList: FC = () => {
             )}
         </div>
     );
-}
+};
