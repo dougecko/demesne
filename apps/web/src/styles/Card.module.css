@@ -17,7 +17,7 @@
     --card-name-color: #581C00;
     --card-name-size: 1.8rem;
     --card-type-color: #3A3226;
-    --card-type-size: 0.9rem;
+    --card-type-size: 1.2rem;
 }
 
 .card {
@@ -79,7 +79,6 @@
 }
 
 .cardType {
-    font-style: italic;
     font-size: var(--card-type-size);
     margin: 0.2rem 0 0;
     color: var(--card-type-color);

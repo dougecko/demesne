@@ -153,7 +153,7 @@ export const CreatureList: FC = () => {
 
                     {creature.languages && creature.languages.length > 0 && (
                         <div className={styles.property}>
-                            <span className={styles.propertyName}>Languages</span> {creature.languages.join(', ')}
+                            <span className={styles.propertyName}>Languages</span> {creature.languages.join(', ') || 'n/a'}
                         </div>
                     )}
 
