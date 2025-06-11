@@ -61,7 +61,7 @@ export const SelectedCreatures: FC<SelectedCreaturesProps> = ({
                                     />
                                 </div>
                                 <div className={styles.stat}>
-                                    <label htmlFor={`hp-${creature.id}`}>HP</label>
+                                    <label htmlFor={`hp-${creature.id}`}>HP ({creature.hitPoints})</label>
                                     <input
                                         type="number"
                                         id={`hp-${creature.id}`}
@@ -71,7 +71,6 @@ export const SelectedCreatures: FC<SelectedCreaturesProps> = ({
                                         min="0"
                                         max={creature.hitPoints}
                                     />
-                                    <span className={styles.maxHp}>/ {creature.hitPoints}</span>
                                 </div>
                                 <div className={styles.stat}>
                                     <label htmlFor={`active-${creature.id}`}>Active</label>
