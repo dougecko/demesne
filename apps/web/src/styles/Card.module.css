@@ -1,7 +1,8 @@
 :root {
     --card-width: 100%;
     --card-filter: none;
-    --card-font-family: 'Noto Serif', 'Palatino Linotype', Palatino, serif;
+    --card-font-family: 'Crimson Text', 'Noto Serif', 'Palatino Linotype', Palatino, serif;
+    --card-heading-font: 'Cinzel Decorative', 'Crimson Text', serif;
     --card-background: #F0E4C9;
     --card-color: #2B2117;
     --card-padding: 1rem;
@@ -14,7 +15,7 @@
     --card-content-max-height-collapsed: 100px;
     --card-content-max-height-expanded: 2000px;
     --card-name-color: #581C00;
-    --card-name-size: 1.2rem;
+    --card-name-size: 1.8rem;
     --card-type-color: #3A3226;
     --card-type-size: 0.9rem;
 }
@@ -68,8 +69,8 @@
 .cardName {
     color: var(--card-name-color);
     font-size: var(--card-name-size);
-    font-variant: small-caps;
-    font-weight: bold;
+    font-family: var(--card-heading-font);
+    font-weight: 700;
     letter-spacing: 1px;
     margin: 0;
     text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -252,7 +253,8 @@
     align-items: center;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    font-family: var(--card-heading-font);
     font-weight: 700;
     color: #4b2404;
 }
@@ -270,6 +272,6 @@
     .headerTitle {
         margin-top: 0;
         margin-bottom: 0.5rem;
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 } 
