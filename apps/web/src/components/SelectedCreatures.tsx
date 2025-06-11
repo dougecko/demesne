@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useMemo } from 'react';
 import type { SelectedCreature } from '@demesne/types';
 import styles from './SelectedCreatures.module.css';
 
@@ -13,6 +13,10 @@ export const SelectedCreatures: FC<SelectedCreaturesProps> = ({
     onRemoveCreature,
     onUpdateCreature 
 }) => {
+    const sortedCreatures = useMemo(() => {
+        return [...selectedCreatures].sort((a, b) => b.initiative - a.initiative);
+    }, [selectedCreatures]);
+
     const handleInitiativeChange = (id: string, value: string) => {
         const initiative = parseInt(value, 10);
         if (!isNaN(initiative)) {
@@ -33,11 +37,11 @@ export const SelectedCreatures: FC<SelectedCreaturesProps> = ({
 
     return (
         <div className={styles.selectedCreatures}>
-            {selectedCreatures.length === 0 ? (
-                <p className={styles.emptyMessage}>No creatures selected</p>
+            {sortedCreatures.length === 0 ? (
+                <p className={styles.emptyMessage}>None</p>
             ) : (
                 <div className={styles.selectedCreatureContainer}>
-                    {selectedCreatures.map(creature => (
+                    {sortedCreatures.map(creature => (
                         <div key={creature.id} className={styles.selectedCreature}>
                             <div className={styles.creatureHeader}>
                                 <h3 className={styles.creatureName}>{creature.name}</h3>
