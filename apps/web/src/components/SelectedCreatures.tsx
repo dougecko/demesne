@@ -33,9 +33,8 @@ export const SelectedCreatures: FC<SelectedCreaturesProps> = ({
 
     return (
         <div className={styles.selectedCreatures}>
-            <h2 className={styles.selectedTitle}>Creatures</h2>
             {selectedCreatures.length === 0 ? (
-                <p className={styles.emptyMessage}>None</p>
+                <p className={styles.emptyMessage}>No creatures selected</p>
             ) : (
                 <div className={styles.selectedCreatureContainer}>
                     {selectedCreatures.map(creature => (
