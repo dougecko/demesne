@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import type { Creature } from '@demesne/types';
+import type { Creature, SelectedCreature } from '@demesne/types';
 import { getCreatures } from '../api/client';
 import styles from './CreatureList.module.css';
 import brassReload from '../assets/brass-reload.svg';
 
 interface CreatureListProps {
-    selectedCreatures: Creature[];
-    onCreatureSelect: (creatures: Creature[]) => void;
+    selectedCreatures: SelectedCreature[];
+    onCreatureSelect: (creature: Creature) => void;
     onRemoveCreature: (id: string) => void;
 }
 
@@ -50,12 +50,7 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
     };
 
     const toggleCreatureSelection = (creature: Creature) => {
-        const isSelected = selectedCreatures.some(c => c.id === creature.id);
-        if (isSelected) {
-            onCreatureSelect(selectedCreatures.filter(c => c.id !== creature.id));
-        } else {
-            onCreatureSelect([...selectedCreatures, creature]);
-        }
+        onCreatureSelect(creature);
     };
 
     const formatCreatureType = (creature: Creature) => {
@@ -80,47 +75,57 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
 
                 <div className={styles.statBlockDivider}></div>
 
-                <div className={styles.statBlockProperties}>
-                    <div className={styles.property}>
-                        <span className={styles.propertyName}>STR</span> {creature.stats.strength.value}
+                <div className={styles.abilityScores}>
+                    <div className={styles.abilityScore}>
+                        <div className={styles.abilityName}>STR</div>
+                        <div className={styles.abilityMod}>{creature.stats.strength.modifier >= 0 ? `+${creature.stats.strength.modifier}` : creature.stats.strength.modifier}</div>
+                        <div className={styles.abilityValue}>{creature.stats.strength.value}</div>
                     </div>
-                    <div className={styles.property}>
-                        <span className={styles.propertyName}>DEX</span> {creature.stats.dexterity.value}
+                    <div className={styles.abilityScore}>
+                        <div className={styles.abilityName}>DEX</div>
+                        <div className={styles.abilityMod}>{creature.stats.dexterity.modifier >= 0 ? `+${creature.stats.dexterity.modifier}` : creature.stats.dexterity.modifier}</div>
+                        <div className={styles.abilityValue}>{creature.stats.dexterity.value}</div>
                     </div>
-                    <div className={styles.property}>
-                        <span className={styles.propertyName}>CON</span> {creature.stats.constitution.value}
+                    <div className={styles.abilityScore}>
+                        <div className={styles.abilityName}>CON</div>
+                        <div className={styles.abilityMod}>{creature.stats.constitution.modifier >= 0 ? `+${creature.stats.constitution.modifier}` : creature.stats.constitution.modifier}</div>
+                        <div className={styles.abilityValue}>{creature.stats.constitution.value}</div>
                     </div>
-                    <div className={styles.property}>
-                        <span className={styles.propertyName}>INT</span> {creature.stats.intelligence.value}
+                    <div className={styles.abilityScore}>
+                        <div className={styles.abilityName}>INT</div>
+                        <div className={styles.abilityMod}>{creature.stats.intelligence.modifier >= 0 ? `+${creature.stats.intelligence.modifier}` : creature.stats.intelligence.modifier}</div>
+                        <div className={styles.abilityValue}>{creature.stats.intelligence.value}</div>
                     </div>
-                    <div className={styles.property}>
-                        <span className={styles.propertyName}>WIS</span> {creature.stats.wisdom.value}
+                    <div className={styles.abilityScore}>
+                        <div className={styles.abilityName}>WIS</div>
+                        <div className={styles.abilityMod}>{creature.stats.wisdom.modifier >= 0 ? `+${creature.stats.wisdom.modifier}` : creature.stats.wisdom.modifier}</div>
+                        <div className={styles.abilityValue}>{creature.stats.wisdom.value}</div>
                     </div>
-                    <div className={styles.property}>
-                        <span className={styles.propertyName}>CHA</span> {creature.stats.charisma.value}
+                    <div className={styles.abilityScore}>
+                        <div className={styles.abilityName}>CHA</div>
+                        <div className={styles.abilityMod}>{creature.stats.charisma.modifier >= 0 ? `+${creature.stats.charisma.modifier}` : creature.stats.charisma.modifier}</div>
+                        <div className={styles.abilityValue}>{creature.stats.charisma.value}</div>
                     </div>
                 </div>
 
-                {creature.senses && (
-                    <>
-                        <div className={styles.statBlockDivider}></div>
+                <div className={styles.statBlockDivider}></div>
+
+                <div className={styles.statBlockProperties}>
+                    {creature.senses && (
                         <div className={styles.property}>
                             <span className={styles.propertyName}>Senses</span> {Object.entries(creature.senses)
                                 .filter(([key]) => key !== 'passivePerception')
                                 .map(([key, value]) => `${key} ${value} ft.`)
                                 .join(', ')}
                         </div>
-                    </>
-                )}
+                    )}
 
-                {creature.languages && creature.languages.length > 0 && (
-                    <>
-                        <div className={styles.statBlockDivider}></div>
+                    {creature.languages && creature.languages.length > 0 && (
                         <div className={styles.property}>
                             <span className={styles.propertyName}>Languages</span> {creature.languages.join(', ')}
                         </div>
-                    </>
-                )}
+                    )}
+                </div>
 
                 <div className={styles.statBlockDivider}></div>
 

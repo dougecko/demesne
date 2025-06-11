@@ -65,4 +65,10 @@ export interface Creature {
   languages: string[];
   challengeRating: ChallengeRating;
   creatureType: CreatureType;
+}
+
+export interface SelectedCreature extends Creature {
+  currentHitPoints: number;
+  initiative: number;
+  isActive?: boolean;
 } 

@@ -53,32 +53,41 @@
 .abilityScores {
     display: flex;
     justify-content: space-between;
-    margin: 0.7rem 0;
-    text-align: center;
+    gap: 1rem;
+    padding: 1rem 0;
 }
 
 .abilityScore {
     display: flex;
     flex-direction: column;
-    width: 16%;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
 }
 
 .abilityName {
     font-weight: bold;
-    font-size: 0.85rem;
-    margin-bottom: 0.2rem;
-    color: #581C00;
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
 }
 
 .abilityMod {
-    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
     font-weight: bold;
-    color: #2B2117;
 }
 
 .abilityValue {
-    font-size: 0.9rem;
-    color: #3A3226;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background-secondary);
 }
 
 .creatureDivider {

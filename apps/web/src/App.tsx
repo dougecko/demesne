@@ -8,13 +8,34 @@ import './App.css'
 import { SpellList } from "./components/SpellList";
 import { CreatureList } from "./components/CreatureList";
 import { Encounter } from './components/Encounter';
-import type { Creature } from '@demesne/types';
+import type { Creature, SelectedCreature } from '@demesne/types';
 
 const App = () => {
-    const [selectedCreatures, setSelectedCreatures] = useState<Creature[]>([]);
+    const [selectedCreatures, setSelectedCreatures] = useState<SelectedCreature[]>([]);
+
+    const handleCreatureSelect = (creature: Creature) => {
+        const isSelected = selectedCreatures.some(c => c.id === creature.id);
+        if (isSelected) {
+            setSelectedCreatures(prev => prev.filter(c => c.id !== creature.id));
+        } else {
+            const newSelectedCreature: SelectedCreature = {
+                ...creature,
+                currentHitPoints: creature.hitPoints,
+                initiative: 0,
+                isActive: false
+            };
+            setSelectedCreatures(prev => [...prev, newSelectedCreature]);
+        }
+    };
 
     const handleRemoveCreature = (id: string) => {
         setSelectedCreatures(prev => prev.filter(c => c.id !== id));
+    };
+
+    const handleUpdateCreature = (id: string, updates: Partial<SelectedCreature>) => {
+        setSelectedCreatures(prev => prev.map(creature => 
+            creature.id === id ? { ...creature, ...updates } : creature
+        ));
     };
 
     return (
@@ -28,13 +49,13 @@ const App = () => {
                         {/* <SpellList /> */}
                         <CreatureList 
                             selectedCreatures={selectedCreatures}
-                            onCreatureSelect={setSelectedCreatures}
-                            onRemoveCreature={handleRemoveCreature}
+                            onCreatureSelect={handleCreatureSelect}
                         />
                     </div>
                     <Encounter 
                         selectedCreatures={selectedCreatures}
                         onRemoveCreature={handleRemoveCreature}
+                        onUpdateCreature={handleUpdateCreature}
                     />
                 </div>
             </main>

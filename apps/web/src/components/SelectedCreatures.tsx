@@ -1,32 +1,93 @@
-import type { Creature } from '@demesne/types';
+import { type FC } from 'react';
+import type { SelectedCreature } from '@demesne/types';
 import styles from './SelectedCreatures.module.css';
 
 interface SelectedCreaturesProps {
-    selectedCreatures: Creature[];
+    selectedCreatures: SelectedCreature[];
     onRemoveCreature: (id: string) => void;
+    onUpdateCreature: (id: string, updates: Partial<SelectedCreature>) => void;
 }
 
-export const SelectedCreatures = ({ selectedCreatures, onRemoveCreature }: SelectedCreaturesProps) => {
+export const SelectedCreatures: FC<SelectedCreaturesProps> = ({ 
+    selectedCreatures, 
+    onRemoveCreature,
+    onUpdateCreature 
+}) => {
+    const handleInitiativeChange = (id: string, value: string) => {
+        const initiative = parseInt(value, 10);
+        if (!isNaN(initiative)) {
+            onUpdateCreature(id, { initiative });
+        }
+    };
+
+    const handleHitPointsChange = (id: string, value: string) => {
+        const currentHitPoints = parseInt(value, 10);
+        if (!isNaN(currentHitPoints)) {
+            onUpdateCreature(id, { currentHitPoints });
+        }
+    };
+
+    const handleToggleActive = (id: string, isActive: boolean) => {
+        onUpdateCreature(id, { isActive });
+    };
+
     return (
         <div className={styles.selectedCreatures}>
             <h2 className={styles.selectedTitle}>Creatures</h2>
             {selectedCreatures.length === 0 ? (
                 <p className={styles.emptyMessage}>None</p>
             ) : (
-                <ul className={styles.creatureList}>
+                <div className={styles.selectedCreatureContainer}>
                     {selectedCreatures.map(creature => (
-                        <li key={creature.id} className={styles.creatureItem}>
-                            <span className={styles.creatureName}>{creature.name}</span>
-                            <button 
-                                onClick={() => onRemoveCreature(creature.id)}
-                                className={styles.removeButton}
-                                title="Remove creature"
-                            >
-                                ×
-                            </button>
-                        </li>
+                        <div key={creature.id} className={styles.selectedCreature}>
+                            <div className={styles.creatureHeader}>
+                                <h3 className={styles.creatureName}>{creature.name}</h3>
+                                <button
+                                    onClick={() => onRemoveCreature(creature.id)}
+                                    className={styles.removeButton}
+                                    title="Remove from encounter"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                            <div className={styles.creatureStats}>
+                                <div className={styles.stat}>
+                                    <label htmlFor={`initiative-${creature.id}`}>Initiative</label>
+                                    <input
+                                        type="number"
+                                        id={`initiative-${creature.id}`}
+                                        value={creature.initiative}
+                                        onChange={(e) => handleInitiativeChange(creature.id, e.target.value)}
+                                        className={styles.numberInput}
+                                    />
+                                </div>
+                                <div className={styles.stat}>
+                                    <label htmlFor={`hp-${creature.id}`}>HP</label>
+                                    <input
+                                        type="number"
+                                        id={`hp-${creature.id}`}
+                                        value={creature.currentHitPoints}
+                                        onChange={(e) => handleHitPointsChange(creature.id, e.target.value)}
+                                        className={styles.numberInput}
+                                        min="0"
+                                        max={creature.hitPoints}
+                                    />
+                                    <span className={styles.maxHp}>/ {creature.hitPoints}</span>
+                                </div>
+                                <div className={styles.stat}>
+                                    <label htmlFor={`active-${creature.id}`}>Active</label>
+                                    <input
+                                        type="checkbox"
+                                        id={`active-${creature.id}`}
+                                        checked={creature.isActive}
+                                        onChange={(e) => handleToggleActive(creature.id, e.target.checked)}
+                                        className={styles.checkbox}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );

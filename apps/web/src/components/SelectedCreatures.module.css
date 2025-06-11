@@ -1,59 +1,103 @@
 .selectedCreatures {
-    background-color: #F0E4C9;
-    border: 1px solid #C9B07C;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     padding: 1rem;
-    margin: 1rem 0;
+    background-color: var(--color-background-secondary);
+    border-radius: 8px;
+    min-height: 200px;
 }
 
-.selectedTitle {
-    font-family: var(--card-heading-font);
-    font-size: 1.5rem;
-    color: #581C00;
-    margin: 0 0 1rem 0;
+.selectedCreatureContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.emptyMessage {
-    font-family: var(--card-font-family);
-    color: #2B2117;
-    text-align: center;
+.selectedCreature {
+    background-color: var(--color-background-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 1rem;
 }
 
-.creatureList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.creatureItem {
+.creatureHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem;
-    border-bottom: 1px solid #C9B07C;
-}
-
-.creatureItem:last-child {
-    border-bottom: none;
+    margin-bottom: 1rem;
 }
 
 .creatureName {
-    font-family: var(--card-font-family);
-    color: #2B2117;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
 }
 
 .removeButton {
     background: none;
     border: none;
-    color: #581C00;
-    font-family: var(--card-font-family);
+    color: var(--color-text-secondary);
     font-size: 1.5rem;
-    font-weight: bold;
     cursor: pointer;
-    padding: 0 0.5rem;
+    padding: 0.25rem;
     line-height: 1;
+    transition: color 0.2s ease;
 }
 
 .removeButton:hover {
-    background-color: rgba(88, 28, 0, 0.1);
+    color: var(--color-error);
+}
+
+.creatureStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat label {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.numberInput {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+}
+
+.numberInput:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.maxHp {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-left: 0.5rem;
+}
+
+.checkbox {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0;
+    cursor: pointer;
+}
+
+.emptyMessage {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin: 2rem 0;
 } 
