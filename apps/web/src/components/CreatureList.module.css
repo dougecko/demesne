@@ -70,13 +70,13 @@
     color: #581C00;
 }
 
-.abilityValue {
+.abilityMod {
     font-size: 1.1rem;
     font-weight: bold;
     color: #2B2117;
 }
 
-.abilityMod {
+.abilityValue {
     font-size: 0.9rem;
     color: #3A3226;
 }
@@ -226,3 +226,10 @@
     margin: 0.5rem 0;
 }
 
+.actionItem {
+    text-align: left;
+}
+
+.actionName {
+    font-weight: bold;
+}

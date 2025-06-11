@@ -126,9 +126,8 @@ export const CreatureList: FC = () => {
                     {statKeys.map(key => (
                         <div key={key} className={styles.abilityScore}>
                             <div className={styles.abilityName}>{key.charAt(0).toUpperCase() + key.slice(1,3)}</div>
+                            <div className={styles.abilityMod}>{creature.stats[key].modifier >= 0 ? `+${creature.stats[key].modifier}` : creature.stats[key].modifier}</div>
                             <div className={styles.abilityValue}>{creature.stats[key].value}</div>
-                            <div
-                                className={styles.abilityMod}>{creature.stats[key].modifier >= 0 ? `+${creature.stats[key].modifier}` : creature.stats[key].modifier}</div>
                         </div>
                     ))}
                 </div>
@@ -172,7 +171,7 @@ export const CreatureList: FC = () => {
                                 <span className={styles.propertyName}>Special Abilities</span>
                             </div>
                             {creature.actions.specialAbilities.map((ability, index) => (
-                                <p key={index}>• {ability.name}. {ability.desc}</p>
+                                renderActionItem(index, ability)
                             ))}
                         </>
                     )}
@@ -183,7 +182,7 @@ export const CreatureList: FC = () => {
                                 <span className={styles.propertyName}>Actions</span>
                             </div>
                             {creature.actions.actions.map((action, index) => (
-                                <p key={index}>• {action.name}. {action.desc}</p>
+                                renderActionItem(index, action)
                             ))}
                         </>
                     )}
@@ -194,13 +193,17 @@ export const CreatureList: FC = () => {
                                 <span className={styles.propertyName}>Legendary Actions</span>
                             </div>
                             {creature.actions.legendaryActions.map((action, index) => (
-                                <p key={index}>• {action.name}. {action.desc}</p>
+                                renderActionItem(index, action)
                             ))}
                         </>
                     )}
                 </div>
             </div>
         );
+
+        function renderActionItem(index: number, item: { name: string; desc: string; }) {
+            return <p className={styles.actionItem} key={index}><span className={styles.actionName}>{item.name}</span>: {item.desc}</p>;
+        }
     };
 
     return (
