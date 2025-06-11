@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import type { SelectedCreature } from '@demesne/types';
-import { SelectedCreatures } from './SelectedCreatures';
+import { EncounterCreatures } from './EncounterCreatures';
 import styles from './Encounter.module.css';
 
 interface EncounterProps {
@@ -13,7 +13,7 @@ export const Encounter: FC<EncounterProps> = ({ selectedCreatures, onRemoveCreat
     return (
         <div className={styles.encounter}>
             <h2 className={styles.encounterTitle}>Encounter</h2>
-            <SelectedCreatures 
+            <EncounterCreatures 
                 selectedCreatures={selectedCreatures}
                 onRemoveCreature={onRemoveCreature}
                 onUpdateCreature={onUpdateCreature}

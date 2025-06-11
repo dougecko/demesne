@@ -1,4 +1,4 @@
-.selectedCreatures {
+.encounterCreatures {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -8,13 +8,13 @@
     min-height: 200px;
 }
 
-.selectedCreatureContainer {
+.encounterCreatureContainer {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.selectedCreature {
+.encounterCreature {
     background-color: var(--color-background-primary);
     border: 1px solid var(--color-border);
     border-radius: 4px;

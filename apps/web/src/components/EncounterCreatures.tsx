@@ -1,14 +1,14 @@
 import { type FC, useMemo } from 'react';
 import type { SelectedCreature } from '@demesne/types';
-import styles from './SelectedCreatures.module.css';
+import styles from './EncounterCreatures.module.css';
 
-interface SelectedCreaturesProps {
+interface EncounterCreaturesProps {
     selectedCreatures: SelectedCreature[];
     onRemoveCreature: (id: string) => void;
     onUpdateCreature: (id: string, updates: Partial<SelectedCreature>) => void;
 }
 
-export const SelectedCreatures: FC<SelectedCreaturesProps> = ({ 
+export const EncounterCreatures: FC<EncounterCreaturesProps> = ({ 
     selectedCreatures, 
     onRemoveCreature,
     onUpdateCreature 
@@ -36,13 +36,13 @@ export const SelectedCreatures: FC<SelectedCreaturesProps> = ({
     };
 
     return (
-        <div className={styles.selectedCreatures}>
+        <div className={styles.encounterCreatures}>
             {sortedCreatures.length === 0 ? (
                 <p className={styles.emptyMessage}>None</p>
             ) : (
-                <div className={styles.selectedCreatureContainer}>
+                <div className={styles.encounterCreatureContainer}>
                     {sortedCreatures.map(creature => (
-                        <div key={creature.id} className={styles.selectedCreature}>
+                        <div key={creature.id} className={styles.encounterCreature}>
                             <div className={styles.creatureHeader}>
                                 <h3 className={styles.creatureName}>{creature.name}</h3>
                                 <button
