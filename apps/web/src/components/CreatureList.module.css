@@ -238,23 +238,14 @@
     background: none;
     border: none;
     color: #581C00;
-    font-size: 1.2rem;
+    font-family: var(--card-font-family);
+    font-size: 1.5rem;
+    font-weight: bold;
     cursor: pointer;
-    padding: 0.5rem;
-    margin-left: 0.5rem;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    padding: 0 0.5rem;
+    line-height: 1;
 }
 
 .selectButton:hover {
     background-color: rgba(88, 28, 0, 0.1);
-}
-
-.selectButton.selected {
-    color: #fff;
-    background-color: #581C00;
-}
-
-.selectButton.selected:hover {
-    background-color: #7a1000;
-}
+} 

@@ -46,12 +46,14 @@
     background: none;
     border: none;
     color: #581C00;
+    font-family: var(--card-font-family);
     font-size: 1.5rem;
+    font-weight: bold;
     cursor: pointer;
     padding: 0 0.5rem;
     line-height: 1;
 }
 
 .removeButton:hover {
-    color: #7a1000;
+    background-color: rgba(88, 28, 0, 0.1);
 } 
