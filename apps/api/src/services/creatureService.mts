@@ -140,7 +140,6 @@ export const getCreatures = async (): Promise<Creature[]> => {
                     return null;
                 }
                 const monsterData = await monsterResponse.json() as MonsterAPIResponse;
-                logger.info(`Monster ${monster.index} description:`, monsterData.desc);
                 return transformMonster(monsterData);
             } catch (error) {
                 logger.error(`Error fetching details for monster ${monster.index}:`, error);
