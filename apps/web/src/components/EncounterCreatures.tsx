@@ -4,8 +4,8 @@ import styles from './EncounterCreatures.module.css';
 
 interface EncounterCreaturesProps {
     selectedCreatures: SelectedCreature[];
-    onRemoveCreature: (id: string) => void;
-    onUpdateCreature: (id: string, updates: Partial<SelectedCreature>) => void;
+    onRemoveCreature: (name: string) => void;
+    onUpdateCreature: (name: string, updates: Partial<SelectedCreature>) => void;
 }
 
 const CONDITION_CONFIG: Record<Condition, { icon: string; abbr: string }> = {
@@ -59,22 +59,22 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
         }));
     };
 
-    const handleInitiativeChange = (id: string, value: string) => {
+    const handleInitiativeChange = (name: string, value: string) => {
         const initiative = parseInt(value, 10);
         if (!isNaN(initiative)) {
-            onUpdateCreature(id, { initiative });
+            onUpdateCreature(name, { initiative });
         }
     };
 
-    const handleHitPointsChange = (id: string, value: string) => {
+    const handleHitPointsChange = (name: string, value: string) => {
         const currentHitPoints = parseInt(value, 10);
         if (!isNaN(currentHitPoints)) {
-            onUpdateCreature(id, { currentHitPoints });
+            onUpdateCreature(name, { currentHitPoints });
         }
     };
 
-    const handleConditionToggle = (id: string, condition: Condition) => {
-        const creature = selectedCreatures.find(c => c.id === id);
+    const handleConditionToggle = (name: string, condition: Condition) => {
+        const creature = selectedCreatures.find(c => c.name === name);
         if (!creature) return;
 
         const currentConditions = creature.conditions || [];
@@ -82,7 +82,7 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
             ? currentConditions.filter(c => c !== condition)
             : [...currentConditions, condition];
 
-        onUpdateCreature(id, { conditions: newConditions });
+        onUpdateCreature(name, { conditions: newConditions });
     };
 
     return (
@@ -92,14 +92,14 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
             ) : (
                 <div className={styles.encounterCreatureContainer}>
                     {sortedCreatures.map(creature => (
-                        <div key={creature.id} className={styles.encounterCreature}>
+                        <div key={creature.name} className={styles.encounterCreature}>
                             <div className={styles.creatureHeader}>
                                 <div>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
                                 </div>
                                 <div className={styles.creatureActions}>
                                     <button
-                                        onClick={() => onRemoveCreature(creature.id)}
+                                        onClick={() => onRemoveCreature(creature.name)}
                                         className={styles.removeButton}
                                         title="Remove from encounter"
                                     >
@@ -109,7 +109,7 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                             </div>
                             <div className={styles.conditionSummary}>
                                 <button 
-                                    onClick={() => setActivePopupId(activePopupId === creature.id ? null : creature.id)}
+                                    onClick={() => setActivePopupId(activePopupId === creature.name ? null : creature.name)}
                                     className={styles.conditionHeader}
                                 >
                                     Conditions: {' '}
@@ -129,7 +129,7 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                                 <div className={styles.speedValue}>
                                     Speed: {creature.speed}'
                                 </div>
-                                {activePopupId === creature.id && (
+                                {activePopupId === creature.name && (
                                     <div className={styles.conditionsPopup} ref={popupRef}>
                                         <div className={styles.conditionsPopupHeader}>
                                             <div className={styles.conditionsPopupTitle}>Conditions</div>
@@ -147,7 +147,7 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                                                     <input
                                                         type="checkbox"
                                                         checked={(creature.conditions || []).includes(condition)}
-                                                        onChange={() => handleConditionToggle(creature.id, condition)}
+                                                        onChange={() => handleConditionToggle(creature.name, condition)}
                                                         className={styles.checkbox}
                                                     />
                                                     <div className={styles.conditionIcon}>
@@ -165,22 +165,22 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                             </div>
                             <div className={styles.creatureStats}>
                                 <div className={styles.stat}>
-                                    <label htmlFor={`initiative-${creature.id}`}>Initiative</label>
+                                    <label htmlFor={`initiative-${creature.name}`}>Initiative</label>
                                     <input
                                         type="number"
-                                        id={`initiative-${creature.id}`}
+                                        id={`initiative-${creature.name}`}
                                         value={creature.initiative}
-                                        onChange={(e) => handleInitiativeChange(creature.id, e.target.value)}
+                                        onChange={(e) => handleInitiativeChange(creature.name, e.target.value)}
                                         className={styles.numberInput}
                                     />
                                 </div>
                                 <div className={styles.stat}>
-                                    <label htmlFor={`hp-${creature.id}`}>HP ({creature.hitPoints})</label>
+                                    <label htmlFor={`hp-${creature.name}`}>HP ({creature.hitPoints})</label>
                                     <input
                                         type="number"
-                                        id={`hp-${creature.id}`}
+                                        id={`hp-${creature.name}`}
                                         value={creature.currentHitPoints}
-                                        onChange={(e) => handleHitPointsChange(creature.id, e.target.value)}
+                                        onChange={(e) => handleHitPointsChange(creature.name, e.target.value)}
                                         className={styles.numberInput}
                                         min="0"
                                         max={creature.hitPoints}

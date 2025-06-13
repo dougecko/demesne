@@ -58,6 +58,11 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
         return `${size} ${type}${alignment ? `, ${alignment}` : ''}`;
     };
 
+    const getCreatureCount = (creature: Creature) => {
+        const baseName = creature.name.split(' #')[0];
+        return selectedCreatures.filter(c => c.name.startsWith(baseName)).length;
+    };
+
     const renderCreatureDetails = (creature: Creature) => {
         return (
             <div className={styles.statBlock}>
@@ -167,14 +172,14 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
                                 <div className={styles.creatureHeader}>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
                                     <button
-                                        className={`${styles.selectButton} ${selectedCreatures.some(c => c.id === creature.id) ? styles.selected : ''}`}
+                                        className={`${styles.selectButton} ${getCreatureCount(creature) > 0 ? styles.selected : ''}`}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             toggleCreatureSelection(creature);
                                         }}
-                                        title={selectedCreatures.some(c => c.id === creature.id) ? "Remove from selection" : "Add to selection"}
+                                        title={getCreatureCount(creature) > 0 ? "Add another" : "Add to selection"}
                                     >
-                                        {selectedCreatures.some(c => c.id === creature.id) ? '×' : '+'}
+                                        {getCreatureCount(creature) > 0 ? getCreatureCount(creature) : '+'}
                                     </button>
                                 </div>
                                 <div>

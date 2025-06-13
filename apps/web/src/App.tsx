@@ -15,27 +15,50 @@ const App = () => {
     const [selectedCreatures, setSelectedCreatures] = useState<SelectedCreature[]>([]);
 
     const handleCreatureSelect = (creature: Creature) => {
-        const isSelected = selectedCreatures.some(c => c.id === creature.id);
-        if (isSelected) {
-            setSelectedCreatures(prev => prev.filter(c => c.id !== creature.id));
-        } else {
-            const newSelectedCreature: SelectedCreature = {
-                ...creature,
-                currentHitPoints: creature.hitPoints,
-                initiative: rollInitiative(creature.stats),
-                conditions: []
-            };
-            setSelectedCreatures(prev => [...prev, newSelectedCreature]);
+        // Get the base name without any number suffix
+        const baseName = creature.name.split(' #')[0];
+        
+        // Count how many of this creature type we already have
+        const existingCount = selectedCreatures.filter(c => c.name.startsWith(baseName)).length;
+        
+        // Create a new instance with a numbered name
+        const newSelectedCreature: SelectedCreature = {
+            ...creature,
+            name: existingCount > 0 ? `${baseName} #${existingCount + 1}` : baseName,
+            currentHitPoints: creature.hitPoints,
+            initiative: rollInitiative(creature.stats),
+            conditions: []
+        };
+        
+        setSelectedCreatures(prev => [...prev, newSelectedCreature]);
+    };
+
+    const handleRemoveCreature = (name: string) => {
+        setSelectedCreatures(prev => prev.filter(c => c.name !== name));
+        
+        // Renumber remaining creatures of the same type
+        const baseName = name.split(' #')[0];
+        const remainingCreatures = selectedCreatures.filter(c => c.name.startsWith(baseName) && c.name !== name);
+        
+        if (remainingCreatures.length > 0) {
+            setSelectedCreatures(prev => 
+                prev.map(creature => {
+                    if (creature.name.startsWith(baseName)) {
+                        const index = remainingCreatures.findIndex(c => c.name === creature.name);
+                        return {
+                            ...creature,
+                            name: index === 0 ? baseName : `${baseName} #${index + 1}`
+                        };
+                    }
+                    return creature;
+                })
+            );
         }
     };
 
-    const handleRemoveCreature = (id: string) => {
-        setSelectedCreatures(prev => prev.filter(c => c.id !== id));
-    };
-
-    const handleUpdateCreature = (id: string, updates: Partial<SelectedCreature>) => {
+    const handleUpdateCreature = (name: string, updates: Partial<SelectedCreature>) => {
         setSelectedCreatures(prev => prev.map(creature => 
-            creature.id === id ? { ...creature, ...updates } : creature
+            creature.name === name ? { ...creature, ...updates } : creature
         ));
     };
 
