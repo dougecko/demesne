@@ -92,7 +92,7 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
             ) : (
                 <div className={styles.encounterCreatureContainer}>
                     {sortedCreatures.map(creature => (
-                        <div key={creature.name} className={styles.encounterCreature}>
+                        <div key={creature.name} className={`${styles.encounterCreature} ${creature.currentHitPoints <= creature.hitPoints / 2 ? styles.lowHp : ''} ${creature.conditions?.length ? styles.hasConditions : ''}`}>
                             <div className={styles.creatureCard}>
                                 <div className={styles.creatureHeader}>
                                     <div>
@@ -113,7 +113,7 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                                 <div className={styles.conditionSummary}>
                                     <button 
                                         onClick={() => setActivePopupId(activePopupId === creature.name ? null : creature.name)}
-                                        className={styles.conditionHeader}
+                                        className={`${styles.conditionHeader} ${creature.conditions?.length ? styles.hasActiveConditions : ''}`}
                                     >
                                         Conditions: {' '}
                                         {creature.conditions?.length > 0 ? (
@@ -130,7 +130,7 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                                         )}
                                     </button>
                                     <div className={styles.speedValue}>
-                                        Speed: {creature.speed}'
+                                        {creature.speed}' 👣
                                     </div>
                                     {activePopupId === creature.name && (
                                         <div className={styles.conditionsPopup} ref={popupRef}>
