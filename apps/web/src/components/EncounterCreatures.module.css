@@ -27,9 +27,6 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    /* margin-bottom: 1rem; */
-    /* padding-bottom: 0.5rem; */
-    /* border-bottom: 1px solid #C9B07C; */
 }
 
 .creatureName {
