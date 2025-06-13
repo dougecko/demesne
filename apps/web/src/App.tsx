@@ -22,7 +22,15 @@ const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T | ((pr
 
         try {
             const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : initialValue;
+            if (!item) return initialValue;
+            
+            const parsed = JSON.parse(item);
+            // Special handling for Set
+            if (initialValue instanceof Set) {
+                return new Set(Array.isArray(parsed) ? parsed : []);
+            }
+            
+            return parsed;
         } catch (error) {
             console.warn(`Error reading localStorage key "${key}":`, error);
             return initialValue;
@@ -43,7 +51,12 @@ const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T | ((pr
             setStoredValue(valueToStore);
             // Save to local storage
             if (typeof window !== 'undefined') {
-                window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                // Special handling for Set
+                if (valueToStore instanceof Set) {
+                    window.localStorage.setItem(key, JSON.stringify(Array.from(valueToStore)));
+                } else {
+                    window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                }
             }
         } catch (error) {
             console.warn(`Error setting localStorage key "${key}":`, error);
@@ -55,6 +68,7 @@ const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T | ((pr
 
 const App = () => {
     const [selectedCreatures, setSelectedCreatures] = useLocalStorage<SelectedCreature[]>('encounter-creatures', []);
+    const [pinnedCreatures, setPinnedCreatures] = useLocalStorage<Set<string>>('pinned-creatures', new Set([]));
 
     const handleCreatureSelect = (creature: Creature) => {
         // Get the base name without any number suffix
@@ -79,10 +93,37 @@ const App = () => {
         };
         
         setSelectedCreatures((prev: SelectedCreature[]) => [...prev, newSelectedCreature]);
+        
+        // Pin the creature if it's not already pinned
+        setPinnedCreatures(prev => {
+            const next = new Set(prev);
+            next.add(creature.id);
+            return next;
+        });
     };
 
     const handleRemoveCreature = (name: string) => {
-        setSelectedCreatures((prev: SelectedCreature[]) => prev.filter(c => c.name !== name));
+        const baseName = name.split(' #')[0];
+        
+        setSelectedCreatures((prev: SelectedCreature[]) => {
+            const withoutRemoved = prev.filter(c => c.name !== name);
+            
+            // Check if this was the last creature of this type
+            const remainingOfType = withoutRemoved.filter(c => c.name.startsWith(baseName));
+            if (remainingOfType.length === 0) {
+                // Unpin the creature type
+                setPinnedCreatures(prev => {
+                    const next = new Set(prev);
+                    const creatureToUnpin = selectedCreatures.find(c => c.name === name);
+                    if (creatureToUnpin) {
+                        next.delete(creatureToUnpin.id);
+                    }
+                    return next;
+                });
+            }
+            
+            return withoutRemoved;
+        });
     };
 
     const handleUpdateCreature = (name: string, updates: Partial<SelectedCreature>) => {
@@ -104,6 +145,7 @@ const App = () => {
                             selectedCreatures={selectedCreatures}
                             onCreatureSelect={handleCreatureSelect}
                             onRemoveCreature={handleRemoveCreature}
+                            pinnedCreatures={pinnedCreatures}
                         />
                     </div>
                     <Encounter 

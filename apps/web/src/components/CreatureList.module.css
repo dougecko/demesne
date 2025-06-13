@@ -266,4 +266,15 @@
     color: var(--color-text-secondary);
     min-width: 1.5rem;
     text-align: center;
+}
+
+.pinned {
+    border: 2px solid #C9B07C;
+    background-color: #F8F0E0;
+}
+
+.pinIndicator {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    vertical-align: middle;
 } 

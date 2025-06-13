@@ -8,20 +8,42 @@ interface CreatureListProps {
     selectedCreatures: SelectedCreature[];
     onCreatureSelect: (creature: Creature) => void;
     onRemoveCreature: (id: string) => void;
+    pinnedCreatures: Set<string>;
 }
 
-export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCreature }: CreatureListProps) => {
+export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCreature, pinnedCreatures }: CreatureListProps) => {
     const [creatures, setCreatures] = useState<Creature[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
+    const [pinnedCreaturesState, setPinnedCreatures] = useState<Set<string>>(pinnedCreatures);
 
     const fetchCreatures = async () => {
         setLoading(true);
         setError(null);
         try {
             const data = await getCreatures();
-            setCreatures(data);
+            
+            // First, ensure all pinned creatures are in the data
+            const pinnedCreatureIds = Array.from(pinnedCreatures);
+            const pinnedCreaturesInData = data.filter(creature => pinnedCreatureIds.includes(creature.id));
+            const missingPinnedCreatures = creatures.filter(creature => 
+                pinnedCreatureIds.includes(creature.id) && 
+                !pinnedCreaturesInData.some(pinned => pinned.id === creature.id)
+            );
+            
+            // Combine fetched data with any missing pinned creatures
+            const completeData = [...data, ...missingPinnedCreatures];
+            
+            // Keep all existing pinned creatures
+            const existingPinned = completeData.filter(creature => pinnedCreatures.has(creature.id));
+            
+            // Get new random creatures from unpinned data
+            const unpinnedData = completeData.filter(creature => !pinnedCreatures.has(creature.id));
+            const randomUnpinned = unpinnedData.sort(() => 0.5 - Math.random()).slice(0, 3);
+            
+            // Combine existing pinned creatures with new random ones
+            setCreatures([...existingPinned, ...randomUnpinned]);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
         } finally {
@@ -31,7 +53,7 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
 
     useEffect(() => {
         fetchCreatures();
-    }, []);
+    }, []); // Only fetch on initial mount
 
     const handleReload = () => {
         fetchCreatures();
@@ -61,6 +83,25 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
     const getCreatureCount = (creature: Creature) => {
         const baseName = creature.name.split(' #')[0];
         return selectedCreatures.filter(c => c.name.startsWith(baseName)).length;
+    };
+
+    const handlePinToggle = (creatureId: string) => {
+        const newPinnedCreatures = new Set(pinnedCreatures);
+        const isPinning = !newPinnedCreatures.has(creatureId);
+        
+        if (isPinning) {
+            newPinnedCreatures.add(creatureId);
+        } else {
+            newPinnedCreatures.delete(creatureId);
+        }
+        setPinnedCreatures(newPinnedCreatures);
+
+        // Reorder creatures
+        const pinned = creatures
+            .filter(c => newPinnedCreatures.has(c.id))
+            .sort((a, b) => a.name.localeCompare(b.name));
+        const unpinned = creatures.filter(c => !newPinnedCreatures.has(c.id));
+        setCreatures([...pinned, ...unpinned]);
     };
 
     const renderCreatureDetails = (creature: Creature) => {
@@ -166,11 +207,16 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
                     {creatures.map(creature => (
                         <div
                             key={creature.id}
-                            className={`${styles.creatureCard} ${expandedCards.has(creature.id) ? styles.cardExpanded : styles.cardCollapsed}`}
+                            className={`${styles.creatureCard} ${expandedCards.has(creature.id) ? styles.cardExpanded : styles.cardCollapsed} ${pinnedCreaturesState.has(creature.id) ? styles.pinned : ''}`}
                             onClick={() => toggleCard(creature.id)}>
                             <div className={styles.creatureCardContent}>
                                 <div className={styles.creatureHeader}>
-                                    <h3 className={styles.creatureName}>{creature.name}</h3>
+                                    <h3 className={styles.creatureName}>
+                                        {creature.name}
+                                        {pinnedCreaturesState.has(creature.id) && (
+                                            <span className={styles.pinIndicator} title="Pinned to encounter">📌</span>
+                                        )}
+                                    </h3>
                                     <div className={styles.creatureActions}>
                                         {getCreatureCount(creature) > 0 && (
                                             <span className={styles.creatureCount}>{getCreatureCount(creature)}</span>
