@@ -9,6 +9,7 @@ import { SpellList } from "./components/SpellList";
 import { CreatureList } from "./components/CreatureList";
 import { Encounter } from './components/Encounter';
 import type { Creature, SelectedCreature } from '@demesne/types';
+import { rollInitiative } from './utils/dice';
 
 const App = () => {
     const [selectedCreatures, setSelectedCreatures] = useState<SelectedCreature[]>([]);
@@ -21,8 +22,8 @@ const App = () => {
             const newSelectedCreature: SelectedCreature = {
                 ...creature,
                 currentHitPoints: creature.hitPoints,
-                initiative: 0,
-                isActive: false
+                initiative: rollInitiative(creature.stats),
+                conditions: []
             };
             setSelectedCreatures(prev => [...prev, newSelectedCreature]);
         }
@@ -50,6 +51,7 @@ const App = () => {
                         <CreatureList 
                             selectedCreatures={selectedCreatures}
                             onCreatureSelect={handleCreatureSelect}
+                            onRemoveCreature={handleRemoveCreature}
                         />
                     </div>
                     <Encounter 

@@ -96,59 +96,6 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                             <div className={styles.creatureHeader}>
                                 <div>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
-                                    <div className={styles.conditionSummary}>
-                                        <button 
-                                            onClick={() => setActivePopupId(activePopupId === creature.id ? null : creature.id)}
-                                            className={styles.conditionHeader}
-                                        >
-                                            Conditions: {' '}
-                                            {creature.conditions?.length > 0 ? (
-                                                getConditionSummary(creature.conditions)?.map((condition, index) => (
-                                                    <span key={condition.name} className={styles.conditionIcon}>
-                                                        {condition.icon}
-                                                        <div className={styles.conditionTooltip}>
-                                                            {condition.name}
-                                                        </div>
-                                                    </span>
-                                                ))
-                                            ) : (
-                                                <span className={styles.noConditions}>None</span>
-                                            )}
-                                        </button>
-                                        {activePopupId === creature.id && (
-                                            <div className={styles.conditionsPopup} ref={popupRef}>
-                                                <div className={styles.conditionsPopupHeader}>
-                                                    <div className={styles.conditionsPopupTitle}>Conditions</div>
-                                                    <button
-                                                        onClick={() => setActivePopupId(null)}
-                                                        className={styles.closeButton}
-                                                        title="Close"
-                                                    >
-                                                        ×
-                                                    </button>
-                                                </div>
-                                                <div className={styles.conditionsList}>
-                                                    {ALL_CONDITIONS.map(condition => (
-                                                        <label key={condition} className={styles.conditionLabel}>
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={(creature.conditions || []).includes(condition)}
-                                                                onChange={() => handleConditionToggle(creature.id, condition)}
-                                                                className={styles.checkbox}
-                                                            />
-                                                            <div className={styles.conditionIcon}>
-                                                                {CONDITION_CONFIG[condition].icon}
-                                                            </div>
-                                                            <span>{CONDITION_CONFIG[condition].abbr}</span>
-                                                            <div className={styles.conditionTooltip}>
-                                                                {condition}
-                                                            </div>
-                                                        </label>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
                                 </div>
                                 <div className={styles.creatureActions}>
                                     <button
@@ -159,6 +106,62 @@ export const EncounterCreatures: FC<EncounterCreaturesProps> = ({
                                         ×
                                     </button>
                                 </div>
+                            </div>
+                            <div className={styles.conditionSummary}>
+                                <button 
+                                    onClick={() => setActivePopupId(activePopupId === creature.id ? null : creature.id)}
+                                    className={styles.conditionHeader}
+                                >
+                                    Conditions: {' '}
+                                    {creature.conditions?.length > 0 ? (
+                                        getConditionSummary(creature.conditions)?.map((condition, index) => (
+                                            <span key={condition.name} className={styles.conditionIcon}>
+                                                {condition.icon}
+                                                <div className={styles.conditionTooltip}>
+                                                    {condition.name}
+                                                </div>
+                                            </span>
+                                        ))
+                                    ) : (
+                                        <span className={styles.noConditions}>None</span>
+                                    )}
+                                </button>
+                                <div className={styles.speedValue}>
+                                    Speed: {creature.speed}'
+                                </div>
+                                {activePopupId === creature.id && (
+                                    <div className={styles.conditionsPopup} ref={popupRef}>
+                                        <div className={styles.conditionsPopupHeader}>
+                                            <div className={styles.conditionsPopupTitle}>Conditions</div>
+                                            <button
+                                                onClick={() => setActivePopupId(null)}
+                                                className={styles.closeButton}
+                                                title="Close"
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                        <div className={styles.conditionsList}>
+                                            {ALL_CONDITIONS.map(condition => (
+                                                <label key={condition} className={styles.conditionLabel}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={(creature.conditions || []).includes(condition)}
+                                                        onChange={() => handleConditionToggle(creature.id, condition)}
+                                                        className={styles.checkbox}
+                                                    />
+                                                    <div className={styles.conditionIcon}>
+                                                        {CONDITION_CONFIG[condition].icon}
+                                                    </div>
+                                                    <span>{CONDITION_CONFIG[condition].abbr}</span>
+                                                    <div className={styles.conditionTooltip}>
+                                                        {condition}
+                                                    </div>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <div className={styles.creatureStats}>
                                 <div className={styles.stat}>
