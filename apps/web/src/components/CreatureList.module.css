@@ -243,18 +243,27 @@
     font-weight: bold;
 }
 
+.creatureActions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .selectButton {
     background: none;
     border: none;
     color: #581C00;
     font-family: var(--card-font-family);
     font-size: 1.5rem;
-    font-weight: bold;
     cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
-.selectButton:hover {
-    background-color: rgba(88, 28, 0, 0.1);
+.creatureCount {
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    min-width: 1.5rem;
+    text-align: center;
 } 

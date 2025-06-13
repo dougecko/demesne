@@ -171,16 +171,21 @@ export const CreatureList = ({ selectedCreatures, onCreatureSelect, onRemoveCrea
                             <div className={styles.creatureCardContent}>
                                 <div className={styles.creatureHeader}>
                                     <h3 className={styles.creatureName}>{creature.name}</h3>
-                                    <button
-                                        className={`${styles.selectButton} ${getCreatureCount(creature) > 0 ? styles.selected : ''}`}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            toggleCreatureSelection(creature);
-                                        }}
-                                        title={getCreatureCount(creature) > 0 ? "Add another" : "Add to selection"}
-                                    >
-                                        {getCreatureCount(creature) > 0 ? getCreatureCount(creature) : '+'}
-                                    </button>
+                                    <div className={styles.creatureActions}>
+                                        {getCreatureCount(creature) > 0 && (
+                                            <span className={styles.creatureCount}>{getCreatureCount(creature)}</span>
+                                        )}
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleCreatureSelection(creature);
+                                            }}
+                                            className={`${styles.selectButton} ${getCreatureCount(creature) > 0 ? styles.selected : ''}`}
+                                            title={getCreatureCount(creature) > 0 ? "Add another" : "Add to encounter"}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
                                 <div>
                                     <p className={styles.creatureType}>{formatCreatureType(creature)}</p>
