@@ -67,8 +67,23 @@ export interface Creature {
   creatureType: CreatureType;
 }
 
+export type Condition = 
+  | 'blinded'
+  | 'charmed'
+  | 'deafened'
+  | 'frightened'
+  | 'grappled'
+  | 'incapacitated'
+  | 'paralyzed'
+  | 'petrified'
+  | 'poisoned'
+  | 'prone'
+  | 'restrained'
+  | 'stunned'
+  | 'unconscious';
+
 export interface SelectedCreature extends Creature {
   currentHitPoints: number;
   initiative: number;
-  isActive?: boolean;
+  conditions: Condition[];
 } 
